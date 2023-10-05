@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import globus from "../assets/globus.png";
 import bigglob from "../assets/bigglob.png";
 
@@ -53,11 +53,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Layout = () => {
+  const navigate = useNavigate();
   const [profile, setProfile] = React.useState(null);
   const handleMenu = (event) => {
     setProfile(event.currentTarget);
   };
-  const handleClose = (event) => {
+  const handleClose = () => {
     setProfile(null);
   };
 
@@ -149,13 +150,19 @@ const Layout = () => {
                       horizontal: "right",
                     }}
                     open={Boolean(profile)}
-                    onClose={handleClose}
+                    onClose={() => handleClose()}
                     sx={{ mt: "45px" }}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/profile");
+                        handleClose();
+                      }}
+                    >
+                      Profile
+                    </MenuItem>
                   </Menu>
-                  <h1 className="text-[12px] mt-[-11px] ml-[8px] font-[400] #000000de">
+                  <h1 className="text-[12px] mt-[-11px] ml-[8px] font-[400] text-[#000000de]">
                     Log in
                   </h1>
                 </div>
