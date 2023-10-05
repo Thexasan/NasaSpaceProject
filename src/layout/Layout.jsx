@@ -119,7 +119,7 @@ const Layout = () => {
             <div className="flex items-center justify-evenly gap-[20px]">
               <div>
                 <Link to="/register">
-                  <Button variant="contained" sx={{ background: "#2196F3" }}>
+                  <Button color="primary" variant="contained" >
                     Registration
                   </Button>
                 </Link>
