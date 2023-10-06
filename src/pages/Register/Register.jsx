@@ -1,17 +1,21 @@
 import {
   Box,
   Button,
+  Checkbox,
+  FormControlLabel,
   IconButton,
   InputAdornment,
   TextField,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 const Register = () => {
   const [show1, setShow1] = React.useState(false);
   const [show2, setShow2] = React.useState(false);
+
+  const [password, setPassword] = React.useState("");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -21,7 +25,7 @@ const Register = () => {
         <div className="container">
           <div className="flex items-center justify-center w-[26%] m-auto">
             <Box component="form">
-              <h1 className="text-[40px] font-[500] text-[#212121] text-center">
+              <h1 className="text-[40px] mb-[15px] font-[500] text-[#212121] text-center">
                 New user registration
               </h1>
               <TextField
@@ -58,7 +62,8 @@ const Register = () => {
                 name="password"
                 label="Password"
                 type={show1 ? "text" : "password"}
-          
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 color="primary"
                 InputProps={{
                   endAdornment: (
@@ -69,14 +74,22 @@ const Register = () => {
                         </IconButton>
                       ) : (
                         <IconButton onClick={() => setShow1(true)}>
-                         <RemoveRedEyeOutlinedIcon/>
+                          <RemoveRedEyeOutlinedIcon />
                         </IconButton>
                       )}
                     </InputAdornment>
                   ),
                 }}
               />
-              <h1 className="ml-[10px] mb-[15px] text-[12px] font-[400] text-[#666666]">The password must be at least 6 characters long</h1>
+              {password.length != 0 && password.length <= 6 ? (
+                <h1 className="text-[red] ml-[10px] mb-[15px] text-[12px] font-[500]">
+                  The password must be at least 6 characters long
+                </h1>
+              ) : (
+                <h1 className="ml-[10px] mb-[15px] text-[12px] font-[500] text-[#666666]">
+                  The password must be at least 6 characters long
+                </h1>
+              )}
               <TextField
                 fullWidth
                 margin="normal"
@@ -94,12 +107,17 @@ const Register = () => {
                         </IconButton>
                       ) : (
                         <IconButton onClick={() => setShow2(true)}>
-                         <RemoveRedEyeOutlinedIcon/>
+                          <RemoveRedEyeOutlinedIcon />
                         </IconButton>
                       )}
                     </InputAdornment>
                   ),
                 }}
+              />
+              <FormControlLabel
+                sx={{ mt: "15px", display: "flex" }}
+                control={<Checkbox sx={{ mt: "-45px" }} color="primary" />}
+                label="By registering, you acknowledge that you have read and agree to the terms of the User Agreement and Privacy Policy"
               />
 
               <Button
