@@ -1,0 +1,13 @@
+.prof {
+  background-image: url(../../assets/asd.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  /* object-fit: contain; */
+  height: 300px;
+}
+.gran {
+  border-radius: var(--none, 0px);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.16);
+  background: #fff;
+}
