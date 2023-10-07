@@ -1,0 +1,14 @@
+.first {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #D1D1D1;
+    padding: 20px 24px 40px 24px;
+}
+
+.second {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #95CDFA;
+    padding: 20px 24px 40px 24px;
+}
+

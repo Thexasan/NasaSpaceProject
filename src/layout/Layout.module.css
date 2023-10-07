@@ -4,3 +4,8 @@
   padding: 13px 50px;
   height: 10vh;
 }
+
+ul li:hover{
+  color: #0288D1;
+  /* border-bottom: 2px solid #0288D1; */
+}

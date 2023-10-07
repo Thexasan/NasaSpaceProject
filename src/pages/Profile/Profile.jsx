@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import doctor from "../../assets/doctor.png";
 import smile1 from "../../assets/smile1.png";
-import "./Profile.css";
+import doc1 from "../../assets/doc1.png";
+import doc2 from "../../assets/doc2.png";
+
+import facebook from "../../assets/facebook.png";
+import instagram from "../../assets/instagram.png";
+import vk from "../../assets/vk.png";
+import ok from "../../assets/ok.png";
+import profcss from "./Profile.module.css";
 import {
   Box,
   Button,
@@ -17,66 +24,66 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+import { axiosRequest } from "../../utils/axiosRequest";
+import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import NoData from "../../components/NoData/NoData";
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      maxHeight: 48 * 4.5 + 8,
       width: 250,
     },
   },
 };
-
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
 const Profile = () => {
   const [three, setThree] = useState(
     localStorage.three
       ? localStorage.three
       : localStorage.setItem("three", "project")
   );
-
   const [personName, setPersonName] = React.useState([]);
-
   const [projectShow, setProjectShow] = useState(true);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [direct, setDirect] = React.useState(null);
+  const [direction, setDirection] = React.useState([]);
+  const [subDirection, setSubDirection] = React.useState([]);
+  const [] = React.useState([]);
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    const { value } = event.target;
+    setPersonName(typeof value === "string" ? value.split(",") : value);
   };
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [age, setAge] = React.useState("");
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
 
+  async function getDirection() {
+    try {
+      const { data } = await axiosRequest.get(
+        "ScientificDirection/get-science-directions"
+      );
+      setDirection(data.data);
+    } catch (error) {}
+  }
+
+  async function getSubDirection() {
+    try {
+      const { data } = await axiosRequest.get(
+        "ScientificDirectionCategory/get-science-direction-categories"
+      );
+      setSubDirection(data.data);
+    } catch (error) {}
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    getDirection();
+    getSubDirection();
   }, []);
   return (
     <div>
-      <div className="prof"></div>
+      <div className={profcss.prof}></div>
       <div className="mt-[-100px]">
         <div className="container1">
           <div className="flex items-center justify-between">
@@ -124,7 +131,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="pt-[40px] gran pb-[20px]">
+      <div className={`pt-[40px] ${profcss.gran} pb-[20px]`}>
         <div className="container1">
           <div className="flex items-center justify-evenly">
             <div
@@ -175,12 +182,15 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="pb-[200px] pt-[100px]">
+      <div
+        className="pb-[200px] pt-[100px]"
+        style={{ display: three != "projects" ? "none" : "block" }}
+      >
         <div className="container1">
-          <div className="text-center flex items-center justify-center flex-col">
+          <form className=" flex items-center justify-center flex-col">
             <div>
               {projectShow ? (
-                <div className="text-center flex flex-col">
+                <div className=" flex flex-col">
                   <img className="w-[35%] m-auto" src={smile1} alt="" />
                   <h1 className=" m-auto my-[20px] text-[#212121] text-[24px] font-[500]">
                     There is nothing here yet. Your published projects will be
@@ -193,14 +203,14 @@ const Profile = () => {
                     To publish the project you need to upload your file in PDF
                     format
                   </h1>
-                  <div className="w-[70%] m-auto">
+                  <div className="w-[500px] m-auto">
                     <TextField
                       margin="normal"
                       fullWidth
                       label="Name"
                       name="name"
                       color="darkBlue"
-                      sx={{ mb: "30px" }}
+                      sx={{ mb: "30px", mt: "30px" }}
                     />
                     <TextField
                       variant="outlined"
@@ -213,7 +223,7 @@ const Profile = () => {
                             <IconButton color="primary" component="label">
                               <input
                                 type="file"
-                                accept="image/*"
+                                accept=".pdf"
                                 style={{ display: "none" }}
                                 onChange={handleFileChange}
                               />
@@ -237,52 +247,100 @@ const Profile = () => {
                       sx={{ mb: "30px" }}
                     />
                     <FormControl fullWidth sx={{ mb: "30px" }}>
-                      <InputLabel id="demo-simple-select-label">
-                        Category
-                      </InputLabel>
+                      <InputLabel>Direction</InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        label="Category"
-                        onChange={(e) => setAge(e.target.value)}
+                        value={direct}
+                        label="Direction"
+                        onChange={(e) => {
+                          setDirect(e.target.value);
+                          setPersonName([]);
+                        }}
                       >
-                        <MenuItem value={10}>Biology</MenuItem>
-                        <MenuItem value={20}>Mathematics</MenuItem>
-                        <MenuItem value={30}>Physics</MenuItem>
+                        {direction.map((e) => {
+                          return <MenuItem value={e.id}>{e.name}</MenuItem>;
+                        })}
                       </Select>
                     </FormControl>
 
-                    <FormControl sx={{ width: "100%" }}>
-                      <InputLabel id="demo-multiple-checkbox-label">
-                        Tag
-                      </InputLabel>
-                      <Select
-                        sx={{ mb: "30px" }}
-                        labelId="demo-multiple-checkbox-label"
-                        id="demo-multiple-checkbox"
-                        multiple
-                        value={personName}
-                        onChange={handleChange}
-                        input={<OutlinedInput label="Tag" />}
-                        renderValue={(selected) => selected.join(", ")}
-                        MenuProps={MenuProps}
-                      >
-                        {names.map((name) => (
-                          <MenuItem key={name} value={name}>
-                            <ListItemText primary={name} />
-                            <Checkbox checked={personName.indexOf(name) > -1} />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    {subDirection.filter((e) => {
+                      if (e.scientificDirectionId == direct) {
+                        return e;
+                      }
+                    }).length != 0 ? (
+                      <FormControl sx={{ width: "100%" }}>
+                        <InputLabel>Sub Direction</InputLabel>
+                        <Select
+                          sx={{ mb: "30px" }}
+                          multiple
+                          value={personName}
+                          onChange={handleChange}
+                          input={<OutlinedInput label="Tag" />}
+                          renderValue={(selected) => selected.join(", ")}
+                          MenuProps={MenuProps}
+                        >
+                          {subDirection
+                            .filter((e) => {
+                              if (e.scientificDirectionId == direct) {
+                                return e;
+                              }
+                            })
+                            .map((elem) => {
+                              return (
+                                <MenuItem
+                                  key={elem.id}
+                                  value={elem.categoryName}
+                                >
+                                  <ListItemText primary={elem.categoryName} />
+                                </MenuItem>
+                              );
+                            })}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <FormControl sx={{ width: "100%" }}>
+                        <InputLabel>Sub Direction</InputLabel>
+                        <Select
+                          disabled
+                          sx={{ mb: "30px" }}
+                          multiple
+                          value={personName}
+                          onChange={handleChange}
+                          input={<OutlinedInput label="Tag" />}
+                          renderValue={(selected) => selected.join(", ")}
+                          MenuProps={MenuProps}
+                        >
+                          {subDirection
+                            .filter((e) => {
+                              if (e.scientificDirectionId == direct) {
+                                return e;
+                              }
+                            })
+                            .map((elem) => {
+                              return (
+                                <MenuItem
+                                  key={elem.id}
+                                  value={elem.categoryName}
+                                >
+                                  <ListItemText primary={elem.categoryName} />
+                                </MenuItem>
+                              );
+                            })}
+                        </Select>
+                        <NoData />
+                      </FormControl>
+                    )}
                   </div>
                 </div>
               )}
             </div>
             <div className="flex items-center gap-[20px]">
               <Button
-                onClick={() => setProjectShow(!projectShow)}
+                onClick={() => {
+                  setProjectShow(!projectShow);
+                  setPersonName([]);
+                  setDirect([]);
+                  setSelectedFile(null);
+                }}
                 sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
                 variant="contained"
               >
@@ -290,13 +348,110 @@ const Profile = () => {
               </Button>
               {projectShow ? null : (
                 <Button
+                  type="submit  "
                   sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
                   variant="contained"
-                  
                 >
                   Submit
                 </Button>
               )}
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        className="pb-[200px] pt-[100px]"
+        style={{ display: three != "partners" ? "none" : "block" }}
+      >
+        <div className="container1">
+          <ProjectCard
+            img={doc2}
+            subject="Chemist"
+            wAuthor="Laura Bassi"
+            clas="second"
+            desc="
+            It was an honor to work on the same project with such an outstanding scientist. I got a great experience from this work.
+            "
+          />
+          <ProjectCard
+            img={doc1}
+            subject="Chemist"
+            wAuthor="Anna Barinova"
+            clas="second"
+            desc="
+            This work changed my life I learned a lot of new things. I will say that working on one project is not easy, but it is a lot of benefit for the world and for myself. 
+            "
+          />
+        </div>
+      </div>
+      <div
+        className="pb-[200px] pt-[100px]"
+        style={{ display: three != "aboutme" ? "none" : "block" }}
+      >
+        <div className="container1">
+          <div className="flex items-start justify-between gap-[20x]">
+            <div className="w-[70%]">
+              <h1 className="text-[#212121] font-[700] mb-[14px] text-[24px]">
+                My autobiography
+              </h1>
+              <p className="text-[24px] text-[#474747]">
+                I, Stanislav Semyon Timofeyevich, born in 1979, graduated with
+                honors from the Faculty of Physics of Lomonosov Moscow State
+                University in 2001. Faculty of Physics of Lomonosov Moscow State
+                University in 2001. Since 2001 I have been working <br /> in
+                Federal State Budgetary Institution of Science at the Institute
+                of General Institute of General Physics named after A.M.
+                Prokhorov. A.M. Prokhorov Institute of General Physics of the
+                Russian Academy of Sciences. I have worked as a junior
+                researcher I have worked as a junior researcher, research
+                associate, senior <br />
+                researcher. At present At present I work as a scientific
+                secretary of the Institute. In 2005 I defended Candidate's
+                thesis in the specialty "theoretical physics" in IOF RAS, and in
+                2014 he defended his doctoral thesis in the specialty "laser
+                <br />
+                physics" at Lomonosov Moscow State University. physics" at
+                Lomonosov Moscow State University. I am the author of 80
+                publications in I am the author of 80 publications in refereed
+                scientific journals and proceedings, one monograph.
+              </p>
+            </div>
+            <div className="w-[20%] text-center rounded-[20px] border-[#0072CD] border   border-solid pt-[20px] pb-[20px] ">
+              <h1 className="text-center text-[20px] font-[500] text-[#000] pb-[20px]">
+                USER PROFILES
+              </h1>
+              <div className="flex items-center justify-center  mb-[20px] gap-[10px] border-[#0072CD] border-solid border-b-2 w-[63%] pb-[5px] m-auto">
+                <div>
+                  <img src={facebook} alt="" />
+                </div>
+                <div>
+                  <h1>Stanislav Semyon</h1>
+                </div>
+              </div>
+              <div className="flex items-center justify-center  mb-[20px] gap-[10px] border-[#0072CD]  border-solid border-b-2 w-[63%] pb-[5px] m-auto">
+                <div>
+                  <img src={instagram} alt="" />
+                </div>
+                <div>
+                  <h1>Stanislav Semyon</h1>
+                </div>
+              </div>
+              <div className="flex items-center justify-center  gap-[10px] mb-[20px] border-[#0072CD]  border-solid border-b-2 w-[63%] pb-[5px] m-auto">
+                <div>
+                  <img src={vk} alt="" />
+                </div>
+                <div>
+                  <h1>Stanislav Semyon</h1>
+                </div>
+              </div>
+              <div className="flex items-center justify-center  gap-[10px] mb-[20px] border-[#0072CD]  border-solid border-b-2 w-[63%] pb-[5px] m-auto">
+                <div>
+                  <img src={ok} alt="" />
+                </div>
+                <div>
+                  <h1>Stanislav Semyon</h1>
+                </div>
+              </div>
             </div>
           </div>
         </div>

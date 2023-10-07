@@ -18,7 +18,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import "./Layout.css";
+import st1 from "./Layout.module.css";
 import { AccountCircle } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { handleChange } from "../reducers/states";
@@ -76,6 +76,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const [show1, setShow1] = React.useState(false);
   const [password, setPassword] = React.useState("");
@@ -91,8 +92,6 @@ const Layout = () => {
     setProfile(null);
   };
 
-  const { pathname } = useLocation();
-
   const SignIn = async (event) => {
     event.preventDefault();
     try {
@@ -103,6 +102,7 @@ const Layout = () => {
       const { data } = await axiosRequest.post("Account/login", user);
       saveToken(data.data);
       navigate("/");
+      setPassword("");
       dispatch(handleChange({ type: "loginModal", value: false }))``;
     } catch (error) {}
   };
@@ -111,7 +111,7 @@ const Layout = () => {
     <div>
       <div className="navbar">
         {/* <h1>{num}</h1> */}
-        <div className="walk">
+        <div className={st1.walk}>
           <div className="container1">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-[50px]">
@@ -142,23 +142,36 @@ const Layout = () => {
 
               <div>
                 <ul className="flex items-center justify-evenly gap-[20px]">
+                  <Link to="/">
+                    <li
+                      style={{ color: pathname == "/" && "#0288D1"  }}
+                      className="text-[16px] text-[#9E9E9E] font-[400]"
+                    >
+                      Home
+                    </li>
+                  </Link>
                   <Link to="/catalog">
-                    <li className="text-[#0288D1] text-[16px] font-[400]  border-b border-[#0288D1]">
+                    <li
+                      style={{
+                        color: pathname == "/catalog" && "#0288D1" ,
+                      }}
+                      className=" text-[#9E9E9E] text-[16px] font-[400]"
+                    >
                       Catalog
                     </li>
                   </Link>
                   <Link to="/catalog">
-                    <li className="text-[#0288D1] text-[16px] font-[400]  border-b border-[#0288D1]">
+                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
                       Science News
                     </li>
                   </Link>
                   <Link to="/catalog">
-                    <li className="text-[#0288D1] text-[16px] font-[400]  border-b border-[#0288D1]">
+                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
                       Scientific seminars
                     </li>
                   </Link>
                   <Link to="/catalog">
-                    <li className="text-[#0288D1] text-[16px] font-[400]  border-b border-[#0288D1]">
+                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
                       About us
                     </li>
                   </Link>
@@ -168,7 +181,10 @@ const Layout = () => {
                 <div>
                   {localStorage.getItem("access_token") ? (
                     <div className="text-center">
-                      <IconButton onClick={()=>navigate("/chat")} sx={{mt:"8px"}}>
+                      <IconButton
+                        onClick={() => navigate("/chat")}
+                        sx={{ mt: "8px" }}
+                      >
                         <MessageOutlinedIcon />
                       </IconButton>
                       <h1 className="text-[12px] mt-[-11px]  font-[400] text-[#000000de]">
@@ -295,9 +311,10 @@ const Layout = () => {
 
       <Dialog
         open={loginModal}
-        onClose={() =>
-          dispatch(handleChange({ type: "loginModal", value: false }))
-        }
+        onClose={() => {
+          setPassword("");
+          dispatch(handleChange({ type: "loginModal", value: false }));
+        }}
       >
         <div
           style={{
