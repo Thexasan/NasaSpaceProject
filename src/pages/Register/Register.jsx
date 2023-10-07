@@ -28,6 +28,15 @@ const Register = () => {
       setCongrats(false)
     }
   }
+
+  const SignUp = async()=>{
+    try {
+      const {data} = await axios
+    } catch (error) {
+      
+    }
+  }
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
