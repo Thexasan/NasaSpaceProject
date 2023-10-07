@@ -21,13 +21,18 @@ const Register = () => {
   const [show2, setShow2] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [congrats, setCongrats] = React.useState(false);
-
   const congr = useRef(null)
+
+  const handleEvent = (event)=>{
+    if(event.target == congr.current){
+      setCongrats(false)
+    }
+  }
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div  >
+    <div  onClick={(event)=>handleEvent(event)}>
       <div className="register w-full">
         <div className="max-w-[3000px] m-auto">
           <div className="flex items-center justify-between w-[100%] m-auto gap-[60px] ">
