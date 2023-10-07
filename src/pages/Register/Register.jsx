@@ -7,7 +7,7 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import science from "../../assets/science.png";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -15,17 +15,19 @@ import "./Register.css";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
   const navigate = useNavigate();
   const [show1, setShow1] = React.useState(false);
   const [show2, setShow2] = React.useState(false);
-
   const [password, setPassword] = React.useState("");
   const [congrats, setCongrats] = React.useState(false);
+
+  const congr = useRef(null)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div>
+    <div  >
       <div className="register w-full">
         <div className="max-w-[3000px] m-auto">
           <div className="flex items-center justify-between w-[100%] m-auto gap-[60px] ">
@@ -147,7 +149,7 @@ const Register = () => {
         </div>
       </div>
       {congrats ? (
-        <div className="modal">
+        <div className="modal" ref={congr}>
           <div
             className="bg-[white] w-[560px] "
             style={{
