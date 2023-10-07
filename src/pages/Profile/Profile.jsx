@@ -3,13 +3,27 @@ import React, { useEffect, useState } from "react";
 import doctor from "../../assets/doctor.png";
 import smile1 from "../../assets/smile1.png";
 import "./Profile.css";
-import { Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
+
 const Profile = () => {
   const [three, setThree] = useState(
     localStorage.three
       ? localStorage.three
       : localStorage.setItem("three", "project")
   );
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -131,6 +145,58 @@ const Profile = () => {
             >
               Publish project
             </Button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div className="container1">
+          <h1 className="text-[#212121] text-[24px] font-[500] text-center">
+            To publish the project you need to upload your file in PDF format
+          </h1>
+          <div className="w-[30%] m-auto">
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Name"
+              name="name"
+              color="darkBlue"
+              sx={{ mb: "30px" }}
+            />
+            <TextField
+            
+              variant="outlined"
+              fullWidth
+              placeholder="Upload"
+              value={selectedFile?.name}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton color="primary" component="label">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        onChange={handleFileChange}
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="24"
+                        viewBox="0 0 25 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
+                          fill="black"
+                          fill-opacity="0.72"
+                        />
+                      </svg>
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {/* asdsd */}
           </div>
         </div>
       </div>
