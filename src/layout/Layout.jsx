@@ -195,7 +195,7 @@ const Layout = () => {
         </div>
       </div>
       <Outlet />
-      <div className="footer">
+      {/* <div className="footer">
         <div className="bg-[#F6F6F6] py-[33px]  ">
           <div className="container1">
             <div className="flex items-center justify-evenly gap-[100px]">
@@ -398,7 +398,7 @@ const Layout = () => {
             </Button>
           </div>
         </div>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };
