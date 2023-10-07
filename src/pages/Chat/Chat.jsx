@@ -174,9 +174,9 @@ const Chat = () => {
     }, []);
 
     return (
-      <div className='container1 ml-[0px] h-[90vh]  flex justify-start items-center'>
+      <div className='ml-[0px] h-[90vh]  flex justify-start items-center'>
             {/* sideBar */}
-        <div className="w-[100px] h-[86vh] mr-[10px] ml-[50px] flex flex-wrap justify-center content-between rounded-[25px] bg-[#3797f0]">
+        <div className="container1 w-[100px] h-[86vh] mr-[10px] ml-[50px] flex flex-wrap justify-center content-between rounded-[25px] bg-[#3797f0]">
           <div className="w">
             <div className="w-[65px] h-[65px] mt-[24px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
               <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
@@ -188,7 +188,7 @@ const Chat = () => {
           </div>
           <div className="hoverBtn w-[65px] h-[65px] rounded-[10px] mb-[15px] text-[white] flex justify-center items-center"><LogoutOutlinedIcon style={{fontSize:"30px"}}/></div>
         </div>    
-        <div className="w-[90%] flex border-[1px] border-gray-300 rounded-[25px]">
+        <div className="container1 w-[90%] flex border-[1px] border-gray-300 rounded-[25px]">
             {/* users */}
             <div className="w-[29.2%] h-[86vh] justify-center content-between flex flex-wrap border-r-[1px] border-r-gray-300">
                 <div className="w-[90%] h-[5%] mt-[20px] flex justify-between items-center">
@@ -199,7 +199,7 @@ const Chat = () => {
                     </button>
                 </div> 
                 <div className="w-[100%]"></div>
-                <div className="w-[100%] h-[90%] mt-[10px] overflow-y-scroll border-t-[1px] border-t-gray-300">
+                <div className="w-[100%] h-[90%] bg-[#e7e7e7] mt-[10px] overflow-y-scroll border-t-[1px] border-t-gray-300">
                     {
                       // chat?.map((e)=>{        
                       //   let thisUser = user.find(a=> {
@@ -233,7 +233,7 @@ const Chat = () => {
                       //     )    
                       // })
                     }
-                    <div className="w-[100%] px-[10px] flex justify-between items-center py-[10px] h-[76px]">  
+                    <div className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px]">  
                         <div className="w-[80%] cursor-pointer flex">
                           <div className="w-[60px] h-[60px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
                             <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
@@ -246,7 +246,7 @@ const Chat = () => {
                         <button onClick={()=>
                           // setdeleteId(e.chatId),
                           setModalChat(true)
-                          } className="w-[30px] h-[30px] flex justify-center cursor-pointer items-center text-[#737373] hover:text-[black] text-[25px]">
+                          } className="w-[30px] h-[30px]  flex justify-center cursor-pointer items-center text-[#737373] hover:text-[black] text-[25px]">
                           <MoreVertIcon/>
                         </button>
                     </div>
