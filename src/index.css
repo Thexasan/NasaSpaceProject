@@ -6,6 +6,7 @@
 {
     max-width: 1500px;
     margin: 0 auto;
+    padding: 0px 50px;
 }
 .modal{
     position: fixed;
