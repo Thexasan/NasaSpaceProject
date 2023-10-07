@@ -19,6 +19,10 @@ import {
 } from "@mui/material";
 import "./Layout.css";
 import { AccountCircle } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { handleChange } from "../reducers/states";
+import { axiosRequest } from "../utils/axiosRequest";
+import { saveToken } from "../utils/token";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -66,8 +70,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Layout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [profile, setProfile] = React.useState(null);
-  const [loginModal, setLoginModal] = React.useState(false);
+  const loginModal = useSelector((state) => state.states.loginModal);
+
   const [forgot, setForgot] = React.useState(false);
   const handleMenu = (event) => {
     setProfile(event.currentTarget);
@@ -78,9 +85,24 @@ const Layout = () => {
 
   const { pathname } = useLocation();
 
+  const SignIn = async (event) => {
+    event.preventDefault();
+    try {
+      let user = {
+        userName: event.target["userName"].value,
+        password: event.target["password"].value,
+      };
+      const {data} = await axiosRequest.post('Account/login', user)
+      saveToken(data.data)
+      navigate("/")
+      dispatch(handleChange({ type: "loginModal", value: false }))
+    } catch (error) {}
+  };
+
   return (
     <div>
       <div className="navbar">
+        {/* <h1>{num}</h1> */}
         <div className="walk">
           <div className="container1">
             <div className="flex items-center justify-between">
@@ -136,13 +158,13 @@ const Layout = () => {
               </div>
               <div className="flex items-center justify-evenly gap-[20px]">
                 <div>
-                  {!localStorage.getItem("access_token") ? (
+                  {localStorage.getItem("access_token") ? null : (
                     <Link to="/register">
                       <Button color="primary" variant="contained">
                         Registration
                       </Button>
                     </Link>
-                  ) : null}
+                  )}
                 </div>
                 <div>
                   {localStorage.getItem("access_token") ? (
@@ -157,8 +179,12 @@ const Layout = () => {
                     </IconButton>
                   ) : (
                     <IconButton
+                      onClick={() =>
+                        dispatch(
+                          handleChange({ type: "loginModal", value: true })
+                        )
+                      }
                       size="large"
-                      onClick={() => setLoginModal(true)}
                     >
                       <AccountCircle />
                     </IconButton>
@@ -241,7 +267,12 @@ const Layout = () => {
         </div>
       </div>
 
-      <Dialog open={loginModal} onClose={() => setLoginModal(false)}>
+      <Dialog
+        open={loginModal}
+        onClose={() =>
+          dispatch(handleChange({ type: "loginModal", value: false }))
+        }
+      >
         <div
           style={{
             padding: "15px 20px",
@@ -250,7 +281,9 @@ const Layout = () => {
         >
           <div
             className="float-right cursor-pointer"
-            onClick={() => setLoginModal(false)}
+            onClick={() =>
+              dispatch(handleChange({ type: "loginModal", value: false }))
+            }
           >
             <svg
               className="mt-[10px] ml-[-35px]"
@@ -269,7 +302,10 @@ const Layout = () => {
               />
             </svg>
           </div>
-          <div className="flex items-center flex-col   pt-[50px]">
+          <form
+            onSubmit={SignIn}
+            className="flex items-center flex-col   pt-[50px]"
+          >
             <h1 className="my-[20px] text-[#000] text-[24px] w-[90%] font-[500]">
               Welcome. log in to use all features of the site
             </h1>
@@ -277,10 +313,9 @@ const Layout = () => {
               <TextField
                 margin="normal"
                 fullWidth
-                label="Email"
-                name="email"
+                label="Username"
+                name="userName"
                 color="primary"
-                type="email"
                 sx={{ mb: "10px" }}
               />
               <TextField
@@ -297,6 +332,7 @@ const Layout = () => {
               <Button
                 color="primary"
                 variant="contained"
+                type="submit"
                 sx={{
                   mt: 3,
                   mb: 2,
@@ -310,7 +346,7 @@ const Layout = () => {
               </Button>
               <Button
                 onClick={() => {
-                  setLoginModal(false);
+                  dispatch(handleChange({ type: "loginModal", value: false }));
                   navigate("/register");
                 }}
                 color="primary"
@@ -331,13 +367,13 @@ const Layout = () => {
             <h1
               className="text-[#2196F3] text-[18px]  my-[20px] font-[500] cursor-pointer"
               onClick={() => {
-                setLoginModal(false);
+                dispatch(handleChange({ type: "loginModal", value: false }));
                 setForgot(true);
               }}
             >
               FORGOT PASSWORD?
             </h1>
-          </div>
+          </form>
         </div>
       </Dialog>
       <Dialog open={forgot} onClose={() => setForgot(false)}>
