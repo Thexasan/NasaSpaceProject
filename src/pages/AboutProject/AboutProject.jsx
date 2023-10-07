@@ -11,8 +11,8 @@ const AboutProject = () => {
   }, []);
   return (
     <div>
-        <div className="section1 mx-[50px] pb-[50px] pt-[70px]">
-          <div className="container1 flex justify-between">
+        <div className="section1 pb-[50px] pt-[70px]">
+          <div className="container1 flex px-[50px] justify-between">
             <ProjectCard2
                 img={crystal}
                 wAuthor="Anna Barinova"
@@ -22,7 +22,7 @@ const AboutProject = () => {
                 "
             />
           </div>
-          <div className="container1 flex justify-between mt-[20px]">
+          <div className="container1 flex px-[50px] justify-between mt-[20px]">
             <div className="max-w-[500px] text-[20px]">
               <h1 className='text-[24px] font-bold'>Table of contents</h1>
               <ol className='leading-[40px]'>
@@ -40,7 +40,7 @@ const AboutProject = () => {
             </div>
           </div>
         </div>
-        <div className="section2  pb-[70px]">
+        <div className="section2 px-[50px]  pb-[70px]">
           {/* title */}
           <div className="container1 text-center">
             <Button

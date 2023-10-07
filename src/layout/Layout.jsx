@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import globus from "../assets/globus.png";
 import bigglob from "../assets/bigglob.png";
 
@@ -75,6 +75,8 @@ const Layout = () => {
   const handleClose = () => {
     setProfile(null);
   };
+
+  const {pathname} = useLocation()
 
   return (
     <div>
@@ -195,7 +197,7 @@ const Layout = () => {
         </div>
       </div>
       <Outlet />
-      {/* <div className="footer">
+      <div className="footer" style={{display:pathname == "/chat" ? "none":"block"}}>
         <div className="bg-[#F6F6F6] py-[33px]  ">
           <div className="container1">
             <div className="flex items-center justify-evenly gap-[100px]">
@@ -398,7 +400,7 @@ const Layout = () => {
             </Button>
           </div>
         </div>
-      </Dialog> */}
+      </Dialog>
     </div>
   );
 };
