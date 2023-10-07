@@ -4,7 +4,19 @@ import globus from "../assets/globus.png";
 import bigglob from "../assets/bigglob.png";
 
 import { styled } from "@mui/material/styles";
-import { Button, IconButton, InputBase, Menu, MenuItem } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  InputBase,
+  Menu,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import "./Layout.css";
 import { AccountCircle } from "@mui/icons-material";
 
@@ -55,6 +67,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Layout = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = React.useState(null);
+  const [loginModal, setLoginModal] = React.useState(false);
+  const [forgot, setForgot] = React.useState(false);
   const handleMenu = (event) => {
     setProfile(event.currentTarget);
   };
@@ -127,15 +141,24 @@ const Layout = () => {
                   </Link>
                 </div>
                 <div>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                  >
-                    <AccountCircle />
-                  </IconButton>
+                  {localStorage.getItem("access_token") ? (
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      size="large"
+                      onClick={() => setLoginModal(true)}
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  )}
 
                   <Menu
                     id="menu-appbar"
@@ -210,6 +233,172 @@ const Layout = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={loginModal} onClose={() => setLoginModal(false)}>
+        <div
+          style={{
+            padding: "15px 20px",
+            borderRadius: "10px",
+          }}
+        >
+          <div
+            className="float-right cursor-pointer"
+            onClick={() => setLoginModal(false)}
+          >
+            <svg
+              className="mt-[10px] ml-[-35px]"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="flex items-center flex-col   pt-[50px]">
+            <h1 className="my-[20px] text-[#000] text-[24px] w-[90%] font-[500]">
+              Welcome. log in to use all features of the site
+            </h1>
+            <div className="w-[89%]">
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Email"
+                name="email"
+                color="primary"
+                type="email"
+                sx={{ mb: "10px" }}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                name="password"
+                label="Password"
+                type="password"
+                color="primary"
+              />
+            </div>
+
+            <div className="flex items-center gap-[10px] ">
+              <Button
+                color="primary"
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  width: "172px",
+                  paddingY: "8px",
+                  fontSize: "16px",
+                  paddingX: "22px",
+                }}
+              >
+                Log in
+              </Button>
+              <Button
+                onClick={() => {
+                  setLoginModal(false);
+                  navigate("/register");
+                }}
+                color="primary"
+                variant="outlined"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  width: "200px",
+                  paddingY: "8px",
+                  paddingX: "22px",
+
+                  fontSize: "15px",
+                }}
+              >
+                Create account
+              </Button>
+            </div>
+            <h1
+              className="text-[#2196F3] text-[18px]  my-[20px] font-[500] cursor-pointer"
+              onClick={() => {
+                setLoginModal(false);
+                setForgot(true);
+              }}
+            >
+              FORGOT PASSWORD?
+            </h1>
+          </div>
+        </div>
+      </Dialog>
+      <Dialog open={forgot} onClose={() => setForgot(false)}>
+        <div
+          style={{
+            padding: "24px 30px",
+            borderRadius: "10px",
+            width: "420px",
+          }}
+        >
+          <div
+            className="float-right cursor-pointer"
+            onClick={() => setForgot(false)}
+          >
+            <svg
+              className="mt-[2px] ml-[-25px]"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div className="flex items-center flex-col   pt-[20px]">
+            <h1 className="my-[20px] text-center text-[#000] text-[20px] w-[90%] font-[500]">
+              Forgot password?
+            </h1>
+            <h1 className="">
+              Enter the email address you used when you registered and we will
+              send you instructions on how to reset your password.
+            </h1>
+            <br />
+            <h1 className="">
+              For security reasons, we do NOT store your password. So rest
+              assured, we will never send your password via email.
+            </h1>
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Email"
+              name="email"
+              color="primary"
+              type="email"
+              sx={{ mb: "10px" }}
+            />
+
+            <Button
+              fullWidth
+              color="primary"
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+              }}
+            >
+              Send
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };
