@@ -11,7 +11,7 @@ const AboutProject = () => {
   }, []);
   return (
     <div>
-        <div className="section1 pb-[50px] pt-[70px]">
+        <div className="section1 mx-[50px] pb-[50px] pt-[70px]">
           <div className="container1 flex justify-between">
             <ProjectCard2
                 img={crystal}
@@ -22,7 +22,7 @@ const AboutProject = () => {
                 "
             />
           </div>
-          <div className="container1 flex justify-between mx-[50px] mt-[20px]">
+          <div className="container1 flex justify-between mt-[20px]">
             <div className="max-w-[500px] text-[20px]">
               <h1 className='text-[24px] font-bold'>Table of contents</h1>
               <ol className='leading-[40px]'>
