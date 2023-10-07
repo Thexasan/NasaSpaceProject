@@ -233,7 +233,24 @@ const Chat = () => {
                       //     )    
                       // })
                     }
-                    <div className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px]">  
+                    <div className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px] border-[1px] border-gray-300">  
+                        <div className="w-[80%] cursor-pointer flex">
+                          <div className="w-[60px] h-[60px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
+                            <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
+                          </div>
+                          <div className="w-[40%]  ml-[24px] flex flex-wrap justify-start content-evenly">
+                            <p className='text-[14px] w-[100%]'>name</p>
+                            <p className='text-[12px] text-[#737373]'>email</p>
+                          </div>
+                        </div>
+                        <button onClick={()=>
+                          // setdeleteId(e.chatId),
+                          setModalChat(true)
+                          } className="w-[30px] h-[30px]  flex justify-center cursor-pointer items-center text-[#737373] hover:text-[black] text-[25px]">
+                          <MoreVertIcon/>
+                        </button>
+                    </div>
+                    <div className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px] border-[1px] border-gray-300">  
                         <div className="w-[80%] cursor-pointer flex">
                           <div className="w-[60px] h-[60px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
                             <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
