@@ -76,7 +76,7 @@ const Layout = () => {
     setProfile(null);
   };
 
-  const {pathname} = useLocation()
+  const { pathname } = useLocation();
 
   return (
     <div>
@@ -136,11 +136,13 @@ const Layout = () => {
               </div>
               <div className="flex items-center justify-evenly gap-[20px]">
                 <div>
-                  <Link to="/register">
-                    <Button color="primary" variant="contained">
-                      Registration
-                    </Button>
-                  </Link>
+                  {!localStorage.getItem("access_token") ? (
+                    <Link to="/register">
+                      <Button color="primary" variant="contained">
+                        Registration
+                      </Button>
+                    </Link>
+                  ) : null}
                 </div>
                 <div>
                   {localStorage.getItem("access_token") ? (
@@ -197,7 +199,10 @@ const Layout = () => {
         </div>
       </div>
       <Outlet />
-      <div className="footer" style={{display:pathname == "/chat" ? "none":"block"}}>
+      <div
+        className="footer"
+        style={{ display: pathname == "/chat" ? "none" : "block" }}
+      >
         <div className="bg-[#F6F6F6] py-[33px]  ">
           <div className="container1">
             <div className="flex items-center justify-evenly gap-[100px]">

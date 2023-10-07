@@ -51,6 +51,8 @@ const Profile = () => {
 
   const [personName, setPersonName] = React.useState([]);
 
+  const [projectShow, setProjectShow] = useState(true);
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -177,104 +179,125 @@ const Profile = () => {
         <div className="container1">
           <div className="text-center flex items-center justify-center flex-col">
             <div>
-              <img src={smile1} alt="" />
-            </div>
-            <h1 className="w-[45%] m-auto my-[20px] text-[#212121] text-[24px] font-[500]">
-              There is nothing here yet. Your published projects will be
-              displayed here.
-            </h1>
-            <Button
-              sx={{ paddingY: "4px", paddingX: "16px", fontSize: "18px" }}
-              variant="contained"
-            >
-              Publish project
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="container1">
-          <h1 className="text-[#212121] text-[24px] font-[500] text-center">
-            To publish the project you need to upload your file in PDF format
-          </h1>
-          <div className="w-[30%] m-auto">
-            <TextField
-              margin="normal"
-              fullWidth
-              label="Name"
-              name="name"
-              color="darkBlue"
-              sx={{ mb: "30px" }}
-            />
-            <TextField
-              variant="outlined"
-              fullWidth
-              placeholder="Upload"
-              value={selectedFile?.name}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton color="primary" component="label">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleFileChange}
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="24"
-                        viewBox="0 0 25 24"
-                        fill="none"
+              {projectShow ? (
+                <div className="text-center flex flex-col">
+                  <img className="w-[35%] m-auto" src={smile1} alt="" />
+                  <h1 className=" m-auto my-[20px] text-[#212121] text-[24px] font-[500]">
+                    There is nothing here yet. Your published projects will be
+                    displayed here.
+                  </h1>
+                </div>
+              ) : (
+                <div>
+                  <h1 className="text-[#212121] text-[24px] font-[500] text-center">
+                    To publish the project you need to upload your file in PDF
+                    format
+                  </h1>
+                  <div className="w-[70%] m-auto">
+                    <TextField
+                      margin="normal"
+                      fullWidth
+                      label="Name"
+                      name="name"
+                      color="darkBlue"
+                      sx={{ mb: "30px" }}
+                    />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      placeholder="Upload"
+                      value={selectedFile?.name}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton color="primary" component="label">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: "none" }}
+                                onChange={handleFileChange}
+                              />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="24"
+                                viewBox="0 0 25 24"
+                                fill="none"
+                              >
+                                <path
+                                  d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
+                                  fill="black"
+                                  fill-opacity="0.72"
+                                />
+                              </svg>
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ mb: "30px" }}
+                    />
+                    <FormControl fullWidth sx={{ mb: "30px" }}>
+                      <InputLabel id="demo-simple-select-label">
+                        Category
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={age}
+                        label="Category"
+                        onChange={(e) => setAge(e.target.value)}
                       >
-                        <path
-                          d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
-                          fill="black"
-                          fill-opacity="0.72"
-                        />
-                      </svg>
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ mb: "30px" }}
-            />
-            <FormControl fullWidth sx={{ mb: "30px" }}>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Category"
-                onChange={(e) => setAge(e.target.value)}
-              >
-                <MenuItem value={10}>Biology</MenuItem>
-                <MenuItem value={20}>Mathematics</MenuItem>
-                <MenuItem value={30}>Physics</MenuItem>
-              </Select>
-            </FormControl>
+                        <MenuItem value={10}>Biology</MenuItem>
+                        <MenuItem value={20}>Mathematics</MenuItem>
+                        <MenuItem value={30}>Physics</MenuItem>
+                      </Select>
+                    </FormControl>
 
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput label="Tag" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
+                    <FormControl sx={{ width: "100%" }}>
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        Tag
+                      </InputLabel>
+                      <Select
+                        sx={{ mb: "30px" }}
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Tag" />}
+                        renderValue={(selected) => selected.join(", ")}
+                        MenuProps={MenuProps}
+                      >
+                        {names.map((name) => (
+                          <MenuItem key={name} value={name}>
+                            <ListItemText primary={name} />
+                            <Checkbox checked={personName.indexOf(name) > -1} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-[20px]">
+              <Button
+                onClick={() => setProjectShow(!projectShow)}
+                sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
+                variant="contained"
               >
-                {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    <ListItemText primary={name} />
-                    <Checkbox checked={personName.indexOf(name) > -1} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                {projectShow ? "Publish project" : "Cancel"}
+              </Button>
+              {projectShow ? null : (
+                <Button
+                  sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
+                  variant="contained"
+                  
+                >
+                  Submit
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
