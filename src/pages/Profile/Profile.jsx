@@ -6,10 +6,41 @@ import "./Profile.css";
 import {
   Box,
   Button,
+  Checkbox,
+  FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
   TextField,
 } from "@mui/material";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 
 const Profile = () => {
   const [three, setThree] = useState(
@@ -18,7 +49,20 @@ const Profile = () => {
       : localStorage.setItem("three", "project")
   );
 
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   const [selectedFile, setSelectedFile] = useState(null);
+  const [age, setAge] = React.useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -163,7 +207,6 @@ const Profile = () => {
               sx={{ mb: "30px" }}
             />
             <TextField
-            
               variant="outlined"
               fullWidth
               placeholder="Upload"
@@ -195,8 +238,43 @@ const Profile = () => {
                   </InputAdornment>
                 ),
               }}
+              sx={{ mb: "30px" }}
             />
-            {/* asdsd */}
+            <FormControl fullWidth sx={{ mb: "30px" }}>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                label="Category"
+                onChange={(e) => setAge(e.target.value)}
+              >
+                <MenuItem value={10}>Biology</MenuItem>
+                <MenuItem value={20}>Mathematics</MenuItem>
+                <MenuItem value={30}>Physics</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput label="Tag" />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    <ListItemText primary={name} />
+                    <Checkbox checked={personName.indexOf(name) > -1} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
         </div>
       </div>
