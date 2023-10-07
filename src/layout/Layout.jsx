@@ -12,6 +12,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  InputAdornment,
   InputBase,
   Menu,
   MenuItem,
@@ -22,7 +23,11 @@ import { AccountCircle } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { handleChange } from "../reducers/states";
 import { axiosRequest } from "../utils/axiosRequest";
-import { saveToken } from "../utils/token";
+import { destroyToken, saveToken } from "../utils/token";
+import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
+
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,6 +77,9 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [show1, setShow1] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+
   const [profile, setProfile] = React.useState(null);
   const loginModal = useSelector((state) => state.states.loginModal);
 
@@ -92,10 +100,10 @@ const Layout = () => {
         userName: event.target["userName"].value,
         password: event.target["password"].value,
       };
-      const {data} = await axiosRequest.post('Account/login', user)
-      saveToken(data.data)
-      navigate("/")
-      dispatch(handleChange({ type: "loginModal", value: false }))
+      const { data } = await axiosRequest.post("Account/login", user);
+      saveToken(data.data);
+      navigate("/");
+      dispatch(handleChange({ type: "loginModal", value: false }))``;
     } catch (error) {}
   };
 
@@ -158,7 +166,16 @@ const Layout = () => {
               </div>
               <div className="flex items-center justify-evenly gap-[20px]">
                 <div>
-                  {localStorage.getItem("access_token") ? null : (
+                  {localStorage.getItem("access_token") ? (
+                    <div className="text-center">
+                      <IconButton onClick={()=>navigate("/chat")} sx={{mt:"8px"}}>
+                        <MessageOutlinedIcon />
+                      </IconButton>
+                      <h1 className="text-[12px] mt-[-11px]  font-[400] text-[#000000de]">
+                        Message
+                      </h1>
+                    </div>
+                  ) : (
                     <Link to="/register">
                       <Button color="primary" variant="contained">
                         Registration
@@ -213,6 +230,15 @@ const Layout = () => {
                       }}
                     >
                       Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/");
+                        destroyToken();
+                        handleClose();
+                      }}
+                    >
+                      Logout
                     </MenuItem>
                   </Menu>
                   <h1 className="text-[12px] mt-[-11px] ml-[8px] font-[400] text-[#000000de]">
@@ -323,8 +349,25 @@ const Layout = () => {
                 margin="normal"
                 name="password"
                 label="Password"
-                type="password"
+                type={show1 ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 color="primary"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {show1 ? (
+                        <IconButton onClick={() => setShow1(false)}>
+                          <VisibilityOffOutlinedIcon />
+                        </IconButton>
+                      ) : (
+                        <IconButton onClick={() => setShow1(true)}>
+                          <RemoveRedEyeOutlinedIcon />
+                        </IconButton>
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
 

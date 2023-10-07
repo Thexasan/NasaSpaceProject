@@ -22,8 +22,8 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [show1, setShow1] = React.useState(false);
-  const [show2, setShow2] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [show2, setShow2] = React.useState(false);
   const [congrats, setCongrats] = React.useState(false);
   const congr = useRef(null);
 
