@@ -13,69 +13,94 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { axiosRequest } from "../../utils/axiosRequest";
+import { useDispatch } from "react-redux";
+import { handleChange } from "../../reducers/States";
 
 const Register = () => {
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [show1, setShow1] = React.useState(false);
   const [show2, setShow2] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [congrats, setCongrats] = React.useState(false);
-  const congr = useRef(null)
+  const congr = useRef(null);
 
-  const handleEvent = (event)=>{
-    if(event.target == congr.current){
-      setCongrats(false)
-    }
-  }
-
-  const SignUp = async()=>{
-    try {
-      const {data} = await axios
-    } catch (error) {
-      
-    }
-  }
   
+  const handleEvent = (event) => {
+    if (event.target == congr.current) {
+      setCongrats(false);
+    }
+  };
+
+  const SignUp = async (event) => {
+    event.preventDefault();
+    try {
+      let obj = {
+        firstName: event.target["firstName"].value,
+        lastName: event.target["lastName"].value,
+        userName: event.target["userName"].value,
+        email: event.target["email"].value,
+        password: event.target["password"].value,
+        confirmPassword: event.target["confirmPassword"].value,
+      };
+      const { data } = await axiosRequest.post("Account/register", obj);
+      setCongrats(true);
+    } catch (error) {}
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div  onClick={(event)=>handleEvent(event)}>
+    <div onClick={(event) => handleEvent(event)}>
       <div className="register w-full">
         <div className="max-w-[3000px] m-auto">
           <div className="flex items-center justify-between w-[100%] m-auto gap-[60px] ">
             <div className="w-[30%] m-auto">
-              <div>
+              <form onSubmit={SignUp}>
                 <h1 className="text-[40px] mb-[15px] font-[500] text-[#212121] text-center">
                   Registration
                 </h1>
                 <TextField
+                  required
                   margin="normal"
                   fullWidth
-                  label="Name"
-                  name="name"
+                  label="First Name"
+                  name="firstName"
                   color="primary"
                   sx={{ mb: "13px" }}
                 />
                 <TextField
+                  required
                   margin="normal"
                   fullWidth
-                  label="Surname"
-                  name="surname"
+                  label="Last Name"
+                  name="lastName"
                   color="primary"
                   sx={{ mb: "13px" }}
                 />
                 <TextField
+                  required
+                  margin="normal"
+                  fullWidth
+                  label="Username"
+                  name="userName"
+                  color="primary"
+                  sx={{ mb: "13px" }}
+                />
+                <TextField
+                  required
                   margin="normal"
                   fullWidth
                   label="Email"
                   name="email"
                   color="primary"
-                  type="email"
                   sx={{ mb: "13px" }}
                 />
                 <TextField
+                  required
                   fullWidth
                   margin="normal"
                   name="password"
@@ -110,6 +135,7 @@ const Register = () => {
                   </h1>
                 )}
                 <TextField
+                  required
                   fullWidth
                   margin="normal"
                   name="confirmPassword"
@@ -134,13 +160,13 @@ const Register = () => {
                   }}
                 />
                 <FormControlLabel
+                  required
                   sx={{ mt: "15px", display: "flex" }}
                   control={<Checkbox sx={{ mt: "-25px" }} color="primary" />}
                   label="By registering, you acknowledge that you have read and agree to the terms of the User Agreement and Privacy Policy"
                 />
 
                 <Button
-                  onClick={() => setCongrats(true)}
                   type="submit"
                   fullWidth
                   color="primary"
@@ -155,7 +181,7 @@ const Register = () => {
                 >
                   Sign Up
                 </Button>
-              </div>
+              </form>
             </div>
 
             <img src={science} alt="" />
@@ -215,7 +241,11 @@ const Register = () => {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={() => navigate("/catalog")}
+                onClick={() => {
+                  dispatch(handleChange({type:"loginModal", value:true}))
+                  setCongrats(false)
+                  navigate("/")
+                }}
                 sx={{
                   mt: 3,
                   mb: 2,
@@ -224,7 +254,7 @@ const Register = () => {
                   fontSize: "20px",
                 }}
               >
-                Catalog
+                Login
               </Button>
             </div>
           </div>

@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material";
-
+import { Provider } from "react-redux";
+import { store } from "./store/store.js";
 const theme = createTheme({
   palette: {
     primary: {
@@ -12,18 +13,19 @@ const theme = createTheme({
       dark: "#1563d0",
       contrastText: "#fff",
     },
-    darkBlue : {
+    darkBlue: {
       main: "#0072CD",
       light: "#42a5f5",
       dark: "#1563d0",
       contrastText: "#fff",
-    }
-    
+    },
   },
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ThemeProvider>
 );
