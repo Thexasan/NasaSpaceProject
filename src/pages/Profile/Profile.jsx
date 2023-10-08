@@ -10,6 +10,7 @@ import instagram from "../../assets/instagram.png";
 import vk from "../../assets/vk.png";
 import ok from "../../assets/ok.png";
 import rustam from "../../assets/Rutam.pdf";
+import hole from "../../assets/hole.png";
 
 import profcss from "./Profile.module.css";
 import {
@@ -25,6 +26,7 @@ import {
   OutlinedInput,
   Select,
   TextField,
+  Dialog,
 } from "@mui/material";
 import { axiosRequest } from "../../utils/axiosRequest";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
@@ -47,6 +49,7 @@ const Profile = () => {
       ? localStorage.three
       : localStorage.setItem("three", "project")
   );
+  const [project, setProjects] = useState([]);
   const [personName, setPersonName] = React.useState([]);
   const [projectShow, setProjectShow] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -55,11 +58,12 @@ const Profile = () => {
   const [direction, setDirection] = React.useState([]);
   const [subDirection, setSubDirection] = React.useState([]);
   const [nameProject, setNameProject] = React.useState("");
+  const [another, setAnother] = React.useState(false);
   const [vc, setVc] = React.useState([]);
 
-  const [profile, setProfile] = React.useState({})
+  const [profile, setProfile] = React.useState({});
 
-  const myid = getToken()?.sid
+  const myid = getToken()?.sid;
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -73,19 +77,25 @@ const Profile = () => {
       setSelectedFile(fileUrl);
     }
   };
-  async function getDirection() {
+
+  const getProjects = async () => {
     try {
       const { data } = await axiosRequest.get(
-        "Direction/getdirections"
+        "ScienceProject/get-science-projects"
       );
+      setProjects(data?.data);
+    } catch (error) {}
+  };
+
+  async function getDirection() {
+    try {
+      const { data } = await axiosRequest.get("Direction/getdirections");
       setDirection(data.data);
     } catch (error) {}
   }
   async function getSubDirection() {
     try {
-      const { data } = await axiosRequest.get(
-        "Category/getcategories"
-      );
+      const { data } = await axiosRequest.get("Category/getcategories");
       setSubDirection(data.data);
     } catch (error) {}
   }
@@ -115,7 +125,8 @@ const Profile = () => {
         "ScienceProject/add-science-project",
         addProject
       );
-      navigate("/");
+      getProjects();
+      setAnother(false);
     } catch (error) {
       console.log(error);
     }
@@ -126,7 +137,7 @@ const Profile = () => {
       const { data } = await axiosRequest.get(
         `UserProfile/get/userProfile/by/id?userId=${myid}`
       );
-      setProfile(data.data)
+      setProfile(data.data);
     } catch (error) {}
   }
 
@@ -134,7 +145,8 @@ const Profile = () => {
     window.scrollTo(0, 0);
     getDirection();
     getSubDirection();
-    getProfile()
+    getProfile();
+    getProjects();
   }, []);
   return (
     <div>
@@ -145,9 +157,14 @@ const Profile = () => {
             <div className="pr1 ">
               <div className="flex  items-end">
                 <div>
-                  <img className="w-[200px] h-[200px] rounded-[100%]" src={`${import.meta.env.VITE_APP_FILES_URL}${profile?.avatar}`} alt="" />
+                  <img
+                    className="w-[200px] h-[200px] rounded-[100%] object-cover"
+                    src={`${import.meta.env.VITE_APP_FILES_URL}${
+                      profile?.avatar
+                    }`}
+                    alt=""
+                  />
                 </div>
-
               </div>
               <h1 className="mb-[10px] mt-[40px] text-[#212121] font-[500]">
                 Name:{" "}
@@ -166,6 +183,7 @@ const Profile = () => {
             <div className="mb-[-100px]">
               <div className="mb-[30px]">
                 <Button
+                  onClick={() => setAnother(true)}
                   sx={{ paddingY: "4px", paddingX: "16px", fontSize: "18px" }}
                   variant="contained"
                 >
@@ -173,8 +191,8 @@ const Profile = () => {
                 </Button>
               </div>
               <div>
-                <Button 
-                  onClick={()=>navigate(`/editProfile/${myid}`)}
+                <Button
+                  onClick={() => navigate(`/editProfile/${myid}`)}
                   sx={{ paddingY: "4px", paddingX: "40px", fontSize: "18px" }}
                   variant="contained"
                 >
@@ -247,119 +265,148 @@ const Profile = () => {
             className="flex items-center justify-center flex-col"
           >
             <div>
-              {projectShow ? (
-                <div className=" flex flex-col">
-                  <img className="w-[35%] m-auto" src={smile1} alt="" />
-                  <h1 className=" m-auto my-[20px] text-[#212121] text-[24px] font-[500]">
-                    There is nothing here yet. Your published projects will be
-                    displayed here.
-                  </h1>
-                </div>
-              ) : (
-                <div>
-                  <h1 className="text-[#212121] text-[24px] font-[500] text-center">
-                    To publish the project you need to upload your file in PDF
-                    format
-                  </h1>
-                  <div className="w-[500px] m-auto">
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      value={nameProject}
-                      onChange={(e) => setNameProject(e.target.value)}
-                      label="Name"
-                      name="name"
-                      color="darkBlue"
-                      sx={{ mb: "30px", mt: "30px" }}
-                    />
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      placeholder="Upload"
-                      value={forName?.name}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton color="primary" component="label">
-                              <input
-                                type="file"
-                                accept=".pdf"
-                                style={{ display: "none" }}
-                                onChange={handleFileChange}
+              <div
+                style={{
+                  display:
+                    projectShow == true && project.length == 0
+                      ? "block"
+                      : "none",
+                }}
+                className=" flex flex-col"
+              >
+                <img className="w-[35%] m-auto" src={smile1} alt="" />
+                <h1 className=" m-auto my-[20px] text-[#212121] text-[24px] font-[500]">
+                  There is nothing here yet. Your published projects will be
+                  displayed here.
+                </h1>
+              </div>
+              <div
+                style={{
+                  display:
+                    projectShow == false && project.length == 0
+                      ? "block"
+                      : "none",
+                }}
+              >
+                <h1 className="text-[#212121] text-[24px] font-[500] text-center">
+                  To publish the project you need to upload your file in PDF
+                  format
+                </h1>
+                <div className="w-[500px] m-auto">
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    value={nameProject}
+                    onChange={(e) => setNameProject(e.target.value)}
+                    label="Name"
+                    name="name"
+                    color="darkBlue"
+                    sx={{ mb: "30px", mt: "30px" }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Upload"
+                    value={forName?.name}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton color="primary" component="label">
+                            <input
+                              type="file"
+                              accept=".pdf"
+                              style={{ display: "none" }}
+                              onChange={handleFileChange}
+                            />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="25"
+                              height="24"
+                              viewBox="0 0 25 24"
+                              fill="none"
+                            >
+                              <path
+                                d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
+                                fill="black"
+                                fill-opacity="0.72"
                               />
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="25"
-                                height="24"
-                                viewBox="0 0 25 24"
-                                fill="none"
-                              >
-                                <path
-                                  d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
-                                  fill="black"
-                                  fill-opacity="0.72"
-                                />
-                              </svg>
-                            </IconButton>
-                          </InputAdornment>
-                        ),
+                            </svg>
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ mb: "30px" }}
+                  />
+                  {selectedFile && (
+                    <iframe
+                      className="mb-[30px]"
+                      title="Embedded HTML Page"
+                      src={selectedFile}
+                      width="100%"
+                      height="400px"
+                    ></iframe>
+                  )}
+                  <FormControl fullWidth sx={{ mb: "30px" }}>
+                    <InputLabel>Direction</InputLabel>
+                    <Select
+                      value={direct}
+                      label="Direction"
+                      onChange={(e) => {
+                        setDirect(e.target.value);
+                        setPersonName([]);
                       }}
-                      sx={{ mb: "30px" }}
-                    />
-                    {selectedFile && (
-                      <iframe
-                        className="mb-[30px]"
-                        title="Embedded HTML Page"
-                        src={selectedFile}
-                        width="100%"
-                        height="400px"
-                      ></iframe>
-                    )}
-                    <FormControl fullWidth sx={{ mb: "30px" }}>
-                      <InputLabel>Direction</InputLabel>
-                      <Select
-                        value={direct}
-                        label="Direction"
-                        onChange={(e) => {
-                          setDirect(e.target.value);
-                          setPersonName([]);
-                        }}
-                      >
-                        {direction.map((e) => {
-                          return <MenuItem value={e.id}>{e.name}</MenuItem>;
-                        })}
-                      </Select>
-                    </FormControl>
+                    >
+                      {direction.map((e) => {
+                        return <MenuItem value={e.id}>{e.name}</MenuItem>;
+                      })}
+                    </Select>
+                  </FormControl>
 
-                    <FormControl sx={{ width: "100%" }}>
-                      <InputLabel>Sub Direction</InputLabel>
-                      <Select
-                        sx={{ mb: "30px" }}
-                        multiple
-                        value={personName}
-                        onChange={handleChange}
-                        input={<OutlinedInput label="Tag" />}
-                        renderValue={(selected) => selected.join(",")}
-                        MenuProps={MenuProps}
-                      >
-                        {subDirection
-                          .filter((e) => {
-                            if (e.directionId == direct) {
-                              return e;
-                            }
-                          })
-                          .map((elem) => {
-                            return (
-                              <MenuItem key={elem.id} value={elem.categoryName}>
-                                <ListItemText primary={elem.categoryName} />
-                              </MenuItem>
-                            );
-                          })}
-                      </Select>
-                    </FormControl>
-                  </div>
+                  <FormControl sx={{ width: "100%" }}>
+                    <InputLabel>Sub Direction</InputLabel>
+                    <Select
+                      sx={{ mb: "30px" }}
+                      multiple
+                      value={personName}
+                      onChange={handleChange}
+                      input={<OutlinedInput label="Tag" />}
+                      renderValue={(selected) => selected.join(",")}
+                      MenuProps={MenuProps}
+                    >
+                      {subDirection
+                        .filter((e) => {
+                          if (e.directionId == direct) {
+                            return e;
+                          }
+                        })
+                        .map((elem) => {
+                          return (
+                            <MenuItem key={elem.id} value={elem.categoryName}>
+                              <ListItemText primary={elem.categoryName} />
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
+                  </FormControl>
                 </div>
-              )}
+              </div>
+              <div>
+                {project.map((e) => {
+                  return (
+                    <ProjectCard
+                      img={hole}
+                      heading={e?.name}
+                      id={e?.id}
+                      fullnames={e?.fullName}
+                      desc={
+                        " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                      }
+                      clas="first"
+                      subject={e?.scientificDirectionName}
+                    />
+                  );
+                })}
+              </div>
             </div>
             <div className="flex items-center gap-[20px]">
               <Button
@@ -370,20 +417,55 @@ const Profile = () => {
                   setSelectedFile(null);
                   setForName(null);
                 }}
-                sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
+                sx={{
+                  paddingY: "4px",
+                  paddingX: "80px",
+                  fontSize: "18px",
+                  display:
+                    projectShow == true && project.length == 0
+                      ? "block"
+                      : "none",
+                }}
                 variant="contained"
               >
-                {projectShow ? "Publish project" : "Cancel"}
+                Publish project
               </Button>
-              {projectShow ? null : (
-                <Button
-                  type="submit"
-                  sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
-                  variant="contained"
-                >
-                  Submit
-                </Button>
-              )}
+              <Button
+                onClick={() => {
+                  setProjectShow(!projectShow);
+                  setPersonName([]);
+                  setDirect([]);
+                  setSelectedFile(null);
+                  setForName(null);
+                }}
+                sx={{
+                  paddingY: "4px",
+                  paddingX: "80px",
+                  fontSize: "18px",
+                  display:
+                    projectShow == false && project.length == 0
+                      ? "block"
+                      : "none",
+                }}
+                variant="contained"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                sx={{
+                  paddingY: "4px",
+                  paddingX: "80px",
+                  fontSize: "18px",
+                  display:
+                    projectShow == false && project.length == 0
+                      ? "block"
+                      : "none",
+                }}
+                variant="contained"
+              >
+                Submit
+              </Button>
             </div>
           </form>
           {/* post end */}
@@ -486,6 +568,148 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Dialog
+        open={another}
+        onClose={() => {
+          setPassword("");
+          setAnother(false);
+        }}
+      >
+        <h1 className="text-[#212121] text-[23px]  w-[80%] m-auto  pt-[50px]  font-[500] text-center">
+          To publish the project you need to upload your file in PDF format
+        </h1>
+       
+        <form
+          onSubmit={postProject}
+          className="w-[500px] m-auto  pb-[50px] px-[20px]"
+        >
+          <TextField
+            margin="normal"
+            fullWidth
+            value={nameProject}
+            onChange={(e) => setNameProject(e.target.value)}
+            label="Name"
+            name="name"
+            color="darkBlue"
+            sx={{ mb: "30px", mt: "30px" }}
+          />
+          <TextField
+            variant="outlined"
+            fullWidth
+            placeholder="Upload"
+            value={forName?.name}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton color="primary" component="label">
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="24"
+                      viewBox="0 0 25 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M12.5 16L7.5 11L8.9 9.55L11.5 12.15V4H13.5V12.15L16.1 9.55L17.5 11L12.5 16ZM6.5 20C5.95 20 5.479 19.804 5.087 19.412C4.695 19.02 4.49934 18.5493 4.5 18V15H6.5V18H18.5V15H20.5V18C20.5 18.55 20.304 19.021 19.912 19.413C19.52 19.805 19.0493 20.0007 18.5 20H6.5Z"
+                        fill="black"
+                        fill-opacity="0.72"
+                      />
+                    </svg>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mb: "30px" }}
+          />
+          {selectedFile && (
+            <iframe
+              className="mb-[30px]"
+              title="Embedded HTML Page"
+              src={selectedFile}
+              width="100%"
+              height="400px"
+            ></iframe>
+          )}
+          <FormControl fullWidth sx={{ mb: "30px" }}>
+            <InputLabel>Direction</InputLabel>
+            <Select
+              value={direct}
+              label="Direction"
+              onChange={(e) => {
+                setDirect(e.target.value);
+                setPersonName([]);
+              }}
+            >
+              {direction.map((e) => {
+                return <MenuItem value={e.id}>{e.name}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+
+          <FormControl sx={{ width: "100%" }}>
+            <InputLabel>Sub Direction</InputLabel>
+            <Select
+              sx={{ mb: "30px" }}
+              multiple
+              value={personName}
+              onChange={handleChange}
+              input={<OutlinedInput label="Tag" />}
+              renderValue={(selected) => selected.join(",")}
+              MenuProps={MenuProps}
+            >
+              {subDirection
+                .filter((e) => {
+                  if (e.directionId == direct) {
+                    return e;
+                  }
+                })
+                .map((elem) => {
+                  return (
+                    <MenuItem key={elem.id} value={elem.categoryName}>
+                      <ListItemText primary={elem.categoryName} />
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </FormControl>
+          <Button
+            fullWidth
+            type="submit"
+            sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
+            variant="contained"
+          >
+            Submit
+          </Button>
+        </form>
+        <div
+          className="cursor-pointer ml-[90%] top-[20px] left-[17px]  absolute"
+          onClick={() => setAnother(false)}
+        >
+          <svg
+            
+            xmlns="http://www.w3.org/2000/svg"
+
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875"
+              stroke="black"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </Dialog>
     </div>
   );
 };

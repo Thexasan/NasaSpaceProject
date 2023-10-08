@@ -3,9 +3,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function MultiActionAreaCard(props) {
-  const { img, heading, fullnames, desc } = props;
+  const { img, heading, fullnames, desc, subject , id} = props;
+  const navigate = useNavigate()
   return (
     <Card
       sx={{
@@ -54,9 +56,9 @@ export default function MultiActionAreaCard(props) {
             }}
             gutterBottom
           >
-            Subject:
+            Subject: {" "}
             <span className="text-[20px] text-[#000000DE/87%] font-[400] leading-7">
-              Biology
+              {subject}
             </span>
           </Typography>
           <Typography
@@ -69,7 +71,7 @@ export default function MultiActionAreaCard(props) {
             }}
             gutterBottom
           >
-            Work author:
+            Work author: {" "}
             <span className="text-[20px] text-[#000000DE/87%] font-[400] leading-7">
               {fullnames}
             </span>
@@ -84,7 +86,8 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
       <div className="text-end">
-        <Button variant="contained">
+        <Button variant="contained" onClick={()=>{navigate(`/aboutProject/${id}`)}}
+        >
           More{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"

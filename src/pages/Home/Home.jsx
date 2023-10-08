@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import laptop from "../../assets/laptop.png";
 import core from "../../assets/core.png";
 import light from "../../assets/light.png";
@@ -9,9 +9,21 @@ import crystal from "../../assets/cristall.png";
 import smile from "../../assets/smile.png";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import { axiosRequest } from "../../utils/axiosRequest";
 const Home = () => {
+  const [project, setProjects] = useState([]);
+
+  const getProjects = async () => {
+    try {
+      const { data } = await axiosRequest.get(
+        "ScienceProject/get-science-projects"
+      );
+      setProjects(data?.data);
+    } catch (error) {}
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
+    getProjects();
   }, []);
   return (
     <div>
@@ -111,45 +123,20 @@ const Home = () => {
             </h1>
           </div>
           <div>
-            <ProjectCard
-              img={crystal}
-              name="«Growing crystals.»"
-              subject="Physics"
-              wAuthor="Anna Barinova"
-              clas = "first"
-              desc="
-            While working on a physics research project on the topic «Growing Crystals,» an 11th grade student expanded her knowledge of how to grow single crystals and druses, considered the use of crystals in science and technology, and grew...
-            "
-            />
-
-            <ProjectCard
-              img={smile}
+            {project.map((e) => {
+              return <ProjectCard
+                img={hole}
+                heading={e?.name}
+                id={e?.id}
+                fullnames={e?.fullName}
+                desc={
+                  " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                }
+                clas = "first"
+                subject={e?.scientificDirectionName}
               
-              name="«Феномен улыбки»"
-              subject="Psychology"
-              wAuthor="Varvara Sergeevna Korotenko"
-              clas = "first"
-              desc="In the ready research paper on psychology «The Phenomenon of Smiling» the author on the example of scientific research and conducting experiments proves that the smile is important for the success of adolescents in life, and explains how people's behavior is related to the smile..."
-            />
-            <ProjectCard
-              img={breket}
-              name="«Growing crystals."
-              subject="Biology"
-              wAuthor="Diana Khomutova"
-              clas = "first"
-              desc="
-              In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care» the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
-            />
-            <ProjectCard
-              img={hole}
-              name="«Black holes and how they form.»"
-              subject="Astranomia"
-              wAuthor="Ekaterina Nikolaevna Kisteneva"
-              clas = "first"
-              desc="
-              While working on a research project on astronomy on the topic «Black holes and how they are formed» a 10th grade student achieved her goal of learning as much as possible about black holes, as well as finding out the signs by which a black hole can be detected in space.
-              "
-            />
+              />;
+            })}
           </div>
         </div>
       </div>
