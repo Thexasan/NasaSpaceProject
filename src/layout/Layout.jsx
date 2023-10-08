@@ -185,14 +185,14 @@ const Layout = () => {
                       Catalog
                     </li>
                   </Link>
-                  <Link to="/catalog">
+                  <Link to="/news">
                     <li onClick={()=>setSearchText("")}
                     className="text-[#9E9E9E] text-[16px] font-[400]">
                       News
                     </li>
                   </Link>
                  
-                  <Link to="/catalog">
+                  <Link to="/aboutUs">
                     <li onClick={()=>setSearchText("")}
                     className="text-[#9E9E9E] text-[16px] font-[400]">
                       About us
