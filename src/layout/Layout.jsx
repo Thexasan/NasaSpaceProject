@@ -84,9 +84,23 @@ const Layout = () => {
   const [profile, setProfile] = React.useState(null);
   const loginModal = useSelector((state) => state.states.loginModal);
 
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState("");
 
-  const [arr,setArr] = useState(["lorem", "lorem ipsum", "candy", "title", "mike", "mike", "mike", "mike","mike", "mike", "mike", "mike","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto, ut."])
+  const [arr, setArr] = useState([
+    "lorem",
+    "lorem ipsum",
+    "candy",
+    "title",
+    "mike",
+    "mike",
+    "mike",
+    "mike",
+    "mike",
+    "mike",
+    "mike",
+    "mike",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto, ut.",
+  ]);
 
   const [forgot, setForgot] = React.useState(false);
   const handleMenu = (event) => {
@@ -139,44 +153,77 @@ const Layout = () => {
                         />
                       </svg>
                     </SearchIconWrapper>
-                    <StyledInputBase value={searchText} onChange={(e)=>setSearchText(e.target.value)} placeholder="Search" />
+                    <StyledInputBase
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      placeholder="Search"
+                    />
                   </Search>
-                  {searchText?
-                  <div className="w-[430px] mt-[10px] text-[#9E9E9E] bg-[#efefef] overflow-y-auto z-[1] relative duration-[500ms] min-h-[0px] max-h-[400px] rounded-[10px] ml-[10px]">
-                    {
-                      arr?.filter((e)=> e?.toLowerCase()?.includes(searchText?.trim()?.toLowerCase()))
-                      ?.map((e,i)=>{
-                        let logic = e?.toLowerCase().includes(searchText?.trim().toLowerCase()) && e.length == searchText.length
-                        return (
-                          <div key={i} className="w-[100%] p-[10px] hover:bg-[#c4c4c4] cursor-pointer flex justify-start items-center">
-                            <p style={{color: logic?"#0288D1":""}} className="ml-[5px] text-[16px]">{
-                              e.split(" ").map((u)=>{
-                                if(u?.toLowerCase().includes(searchText?.trim()?.toLowerCase())){
-                                  return <span className="text-[#0288D1]"> {u} </span>
-                                }
-                                return <span> {u} </span>
-                              })
-                            }</p>
-                          </div>
+                  {searchText ? (
+                    <div className="w-[430px] mt-[10px] text-[#9E9E9E] bg-[#efefef] overflow-y-auto z-[1] relative duration-[500ms] min-h-[0px] max-h-[400px] rounded-[10px] ml-[10px]">
+                      {arr
+                        ?.filter((e) =>
+                          e
+                            ?.toLowerCase()
+                            ?.includes(searchText?.trim()?.toLowerCase())
                         )
-                     })
-                    }
-                  </div>:""}
+                        ?.map((e, i) => {
+                          let logic =
+                            e
+                              ?.toLowerCase()
+                              .includes(searchText?.trim().toLowerCase()) &&
+                            e.length == searchText.length;
+                          return (
+                            <div
+                              key={i}
+                              className="w-[100%] p-[10px] hover:bg-[#c4c4c4] cursor-pointer flex justify-start items-center"
+                            >
+                              <p
+                                style={{ color: logic ? "#0288D1" : "" }}
+                                className="ml-[5px] text-[16px]"
+                              >
+                                {e.split(" ").map((u) => {
+                                  if (
+                                    u
+                                      ?.toLowerCase()
+                                      .includes(
+                                        searchText?.trim()?.toLowerCase()
+                                      )
+                                  ) {
+                                    return (
+                                      <span className="text-[#0288D1]">
+                                        {" "}
+                                        {u}{" "}
+                                      </span>
+                                    );
+                                  }
+                                  return <span> {u} </span>;
+                                })}
+                              </p>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
 
               <div>
                 <ul className="flex items-center justify-evenly gap-[30px]">
                   <Link to="/">
-                    <li onClick={()=>setSearchText("")}
-                      style={{ color: pathname == "/" && "#0288D1"  }}
+                    <li
+                      onClick={() => setSearchText("")}
+                      style={{ color: pathname == "/" && "#0288D1" }}
                       className="text-[16px] text-[#9E9E9E] font-[400]"
                     >
                       Home
                     </li>
                   </Link>
                   <Link to="/catalog">
-                    <li onClick={()=>setSearchText("")}
+                    <li
+                      onClick={() => setSearchText("")}
                       style={{
                         color: pathname == "/catalog" && "#0288D1",
                       }}
@@ -186,15 +233,25 @@ const Layout = () => {
                     </li>
                   </Link>
                   <Link to="/news">
-                    <li onClick={()=>setSearchText("")}
-                    className="text-[#9E9E9E] text-[16px] font-[400]">
+                    <li
+                      style={{
+                        color: pathname == "/news" && "#0288D1",
+                      }}
+                      onClick={() => setSearchText("")}
+                      className="text-[#9E9E9E] text-[16px] font-[400]"
+                    >
                       News
                     </li>
                   </Link>
-                 
+
                   <Link to="/aboutUs">
-                    <li onClick={()=>setSearchText("")}
-                    className="text-[#9E9E9E] text-[16px] font-[400]">
+                    <li
+                      style={{
+                        color: pathname == "/aboutUs" && "#0288D1",
+                      }}
+                      onClick={() => setSearchText("")}
+                      className="text-[#9E9E9E] text-[16px] font-[400]"
+                    >
                       About us
                     </li>
                   </Link>
@@ -266,7 +323,7 @@ const Layout = () => {
                       onClick={() => {
                         navigate("/profile");
                         handleClose();
-                        setSearchText("")
+                        setSearchText("");
                       }}
                     >
                       Profile
@@ -276,7 +333,7 @@ const Layout = () => {
                         navigate("/");
                         destroyToken();
                         handleClose();
-                        setSearchText("")
+                        setSearchText("");
                       }}
                     >
                       Logout

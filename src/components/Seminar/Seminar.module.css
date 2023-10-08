@@ -1,0 +1,11 @@
+.hpto {
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(217, 217, 217, 0) 0%,
+    rgba(0, 0, 0, 0.29) 100%
+  );
+  object-fit: contain;
+
+
+}
