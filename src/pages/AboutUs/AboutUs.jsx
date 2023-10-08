@@ -4,6 +4,7 @@ import about1 from '../../assets/about1.png'
 import about2 from '../../assets/about2.png'
 import about3 from '../../assets/about3.png'
 
+import avatar1 from '../../assets/avatar1.png'
 
 const AboutUs = () => {
   return (
@@ -32,9 +33,9 @@ const AboutUs = () => {
           </div>
           <div className="container1 flex justify-center">
             <div className="w-[910px] flex flex-wrap py-[40px] justify-between">
-              <div className="w-[360px] h-[570px] text-center">
+              <div className="w-[360px] h-[570px] text-start">
+                <img src={avatar1} className='w-[100%] h-[350px] rounded-[5px] object-cover bg-[gray]' alt="" />
                 <p className='text-[38px] font-bold'>Name Family</p>
-                <img src="" className='w-[100%] h-[450px] rounded-[5px] object-cover bg-[gray]' alt="" />
                 <p className='text-[42px] text-[gray]'>Developer</p>
               </div>
               <div className="w-[360px] h-[570px] text-center">
