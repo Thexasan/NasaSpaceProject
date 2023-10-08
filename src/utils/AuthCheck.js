@@ -7,11 +7,11 @@ const AuthCheck = (props) => {
 
   useEffect(() => {
     if (token) {
-      return navigate("/panel");
+      return navigate("/");
     }
   }, [navigate]);
 
   return props.children;
 };
 
-export default AuthCheck;
+export default AuthCheck
