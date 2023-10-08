@@ -116,6 +116,7 @@ const Home = () => {
               name="«Growing crystals.»"
               subject="Physics"
               wAuthor="Anna Barinova"
+              clas = "first"
               desc="
             While working on a physics research project on the topic «Growing Crystals,» an 11th grade student expanded her knowledge of how to grow single crystals and druses, considered the use of crystals in science and technology, and grew...
             "
@@ -123,9 +124,11 @@ const Home = () => {
 
             <ProjectCard
               img={smile}
+              
               name="«Феномен улыбки»"
               subject="Psychology"
               wAuthor="Varvara Sergeevna Korotenko"
+              clas = "first"
               desc="In the ready research paper on psychology «The Phenomenon of Smiling» the author on the example of scientific research and conducting experiments proves that the smile is important for the success of adolescents in life, and explains how people's behavior is related to the smile..."
             />
             <ProjectCard
@@ -133,6 +136,7 @@ const Home = () => {
               name="«Growing crystals."
               subject="Biology"
               wAuthor="Diana Khomutova"
+              clas = "first"
               desc="
               In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care» the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
             />
@@ -141,6 +145,7 @@ const Home = () => {
               name="«Black holes and how they form.»"
               subject="Astranomia"
               wAuthor="Ekaterina Nikolaevna Kisteneva"
+              clas = "first"
               desc="
               While working on a research project on astronomy on the topic «Black holes and how they are formed» a 10th grade student achieved her goal of learning as much as possible about black holes, as well as finding out the signs by which a black hole can be detected in space.
               "

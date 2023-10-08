@@ -11,7 +11,6 @@ import React, { useEffect, useRef, useState } from "react";
 import science from "../../assets/science.png";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { axiosRequest } from "../../utils/axiosRequest";
