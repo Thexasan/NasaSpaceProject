@@ -199,7 +199,7 @@ const Chat = () => {
             <div className="w-[52px] h-[52px] mt-[24px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
               <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
             </div>
-            <div className={`${chatcss.hoverBtn} w-[65px] h-[65px] rounded-[10px] mt-[30px] text-[white] flex justify-center items-center`}><HomeOutlinedIcon style={{fontSize:"35px"}}/></div>
+            <div onClick={()=>setChatID(null)} className={`${chatcss.hoverBtn} w-[65px] h-[65px] rounded-[10px] mt-[30px] text-[white] flex justify-center items-center`}><HomeOutlinedIcon style={{fontSize:"35px"}}/></div>
             <div className={`${chatcss.hoverBtn} w-[65px] h-[65px] rounded-[10px] mt-[15px] text-[white] flex justify-center items-center`}><ChatBubbleOutlineOutlinedIcon style={{fontSize:"30px"}}/></div>
             <div className={`${chatcss.hoverBtn} w-[65px] h-[65px] rounded-[10px] mt-[15px] text-[white] flex justify-center items-center`}><NotificationsNoneOutlinedIcon style={{fontSize:"35px"}}/></div>
             <div className={`${chatcss.hoverBtn} w-[65px] h-[65px] rounded-[10px] mt-[15px] text-[white] flex justify-center items-center`}><SettingsOutlinedIcon style={{fontSize:"30px"}}/></div>

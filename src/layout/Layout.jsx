@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import globus from "../assets/globus.png";
 import bigglob from "../assets/bigglob.png";
@@ -78,6 +78,8 @@ const Layout = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
+  const [project, setProject] = useState([])
+
   const [show1, setShow1] = React.useState(false);
   const [password, setPassword] = React.useState("");
 
@@ -124,6 +126,21 @@ const Layout = () => {
       dispatch(handleChange({ type: "loginModal", value: false }))``;
     } catch (error) {}
   };
+
+  // getProject
+  async  function getProject(){
+    try {
+      let {data} = await axiosRequest.get(`ScienceProject/get-science-projects`)
+      setProject(data.data)
+      console.log(data.data);
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(()=>{
+    getProject()
+  },[])
 
   return (
     <div>
