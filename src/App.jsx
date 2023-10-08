@@ -9,7 +9,9 @@ import {
   Profile,
   Register,
 } from "./router/Routes";
-import './App.css'
+import "./App.css";
+import AuthCheck from "./utils/AuthCheck";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -49,7 +51,9 @@ const App = () => {
           path: "profile",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
-              <Profile />
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
             </Suspense>
           ),
         },
@@ -57,7 +61,9 @@ const App = () => {
           path: "chat",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
-              <Chat />
+              <ProtectedRoute>
+                <Chat />
+              </ProtectedRoute>
             </Suspense>
           ),
         },

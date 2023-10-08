@@ -33,7 +33,7 @@ const Chat = () => {
 
     const navigate = useNavigate()
 
-    const myId = getToken().sid
+    const myId = getToken()?.sid
     const [text, setText] = useState("")
     const [user, setUser] = useState([])
     const [post, setPost] = useState([])
@@ -213,7 +213,7 @@ const Chat = () => {
             <div className="w-[29.2%] h-[100%] justify-center content-between flex flex-wrap border-r-[1px] border-r-gray-300">
                 <div className="w-[90%] h-[5%] mt-[20px] flex justify-between items-center">
                     {/* <p className='text-[20px] font-bold'>{getToken()?.name}</p> */}
-                    <p className='text-[20px] font-bold'>{getToken().userName}</p>
+                    <p className='text-[20px] font-bold'>{getToken()?.userName}</p>
                     <button onClick={()=>setModalAdd(true)} className='w-[40px] h-[100%] hover:text-gray-500'>
                         <EditCalendarOutlinedIcon style={{fontSize:"30px"}}/>
                     </button>
