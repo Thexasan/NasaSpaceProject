@@ -2,10 +2,12 @@ import React, { Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   AboutProject,
+  AboutUs,
   Catalog,
   Chat,
   Home,
   Layout,
+  News,
   Profile,
   Register,
 } from "./router/Routes";
@@ -72,6 +74,22 @@ const App = () => {
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <Register />
+            </Suspense>
+          ),
+        },
+        {
+          path: "news",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <News />
+            </Suspense>
+          ),
+        },
+        {
+          path: "aboutUs",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <AboutUs />
             </Suspense>
           ),
         },
