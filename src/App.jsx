@@ -42,7 +42,7 @@ const App = () => {
           ),
         },
         {
-          path: "aboutProject",
+          path: "aboutProject/:id",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <AboutProject />
@@ -60,7 +60,7 @@ const App = () => {
           ),
         },
         {
-          path: "chat",
+          path: "chat/:id",
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <ProtectedRoute>
