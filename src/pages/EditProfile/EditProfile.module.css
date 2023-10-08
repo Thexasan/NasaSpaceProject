@@ -1,0 +1,8 @@
+.prof {
+    background-image: url(../../assets/asd.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /* object-fit: contain; */
+    height: 300px;
+  }

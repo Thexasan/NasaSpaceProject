@@ -9,4 +9,5 @@ export const Register = lazy(() => import("../pages/Register/Register"));
 export const Chat = lazy(() => import("../pages/Chat/Chat"));
 export const News = lazy(() => import("../pages/News/News"));
 export const AboutUs = lazy(() => import("../pages/AboutUs/AboutUs"));
+export const EditProfile = lazy(() => import("../pages/EditProfile/EditProfile"));
 

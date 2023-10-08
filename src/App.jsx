@@ -5,6 +5,7 @@ import {
   AboutUs,
   Catalog,
   Chat,
+  EditProfile,
   Home,
   Layout,
   News,
@@ -90,6 +91,14 @@ const App = () => {
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <AboutUs />
+            </Suspense>
+          ),
+        },
+        {
+          path: "editProfile/:id",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <EditProfile />
             </Suspense>
           ),
         },

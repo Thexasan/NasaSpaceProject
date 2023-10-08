@@ -30,6 +30,7 @@ import { axiosRequest } from "../../utils/axiosRequest";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import NoData from "../../components/NoData/NoData";
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../../utils/token";
 const MenuProps = {
   PaperProps: {
     style: {
@@ -56,6 +57,10 @@ const Profile = () => {
   const [nameProject, setNameProject] = React.useState("");
   const [vc, setVc] = React.useState([]);
 
+  const [profile, setProfile] = React.useState({})
+
+  const myid = getToken()?.sid
+
   const handleChange = (event) => {
     const { value } = event.target;
     setPersonName(typeof value === "string" ? value.split(",") : value);
@@ -68,33 +73,29 @@ const Profile = () => {
       setSelectedFile(fileUrl);
     }
   };
-
   async function getDirection() {
     try {
       const { data } = await axiosRequest.get(
-        "ScientificDirection/get-science-directions"
+        "Direction/getdirections"
       );
       setDirection(data.data);
     } catch (error) {}
   }
-
   async function getSubDirection() {
     try {
       const { data } = await axiosRequest.get(
-        "ScientificDirectionCategory/get-science-direction-categories"
+        "Category/getcategories"
       );
       setSubDirection(data.data);
     } catch (error) {}
   }
-  // let ar = subDirection()
-  // post
   async function postProject(event) {
     event.preventDefault();
 
     let ar = [];
     personName.map((e) => {
       return subDirection.map((el) => {
-        if (e == el.categoryName && direct == el.scientificDirectionId) {
+        if (e == el.categoryName && direct == el.directionId) {
           ar.push(el.id);
         }
       });
@@ -120,10 +121,20 @@ const Profile = () => {
     }
   }
 
+  async function getProfile() {
+    try {
+      const { data } = await axiosRequest.get(
+        `UserProfile/get/userProfile/by/id?userId=${myid}`
+      );
+      setProfile(data.data)
+    } catch (error) {}
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
     getDirection();
     getSubDirection();
+    getProfile()
   }, []);
   return (
     <div>
@@ -134,21 +145,19 @@ const Profile = () => {
             <div className="pr1 ">
               <div className="flex  items-end">
                 <div>
-                  <img src={doctor} alt="" />
+                  <img className="w-[200px] h-[200px] rounded-[100%]" src={`${import.meta.env.VITE_APP_FILES_URL}${profile?.avatar}`} alt="" />
                 </div>
-                <div className="mt-[-50px]">
-                  <h1>0 Projects</h1>
-                </div>
+
               </div>
               <h1 className="mb-[10px] mt-[40px] text-[#212121] font-[500]">
                 Name:{" "}
                 <span className="font-[400]">
-                  Stanislav Semyon Timofeyevich
+                  {profile?.firstName} {profile?.lastName}
                 </span>{" "}
               </h1>
               <h1 className="mb-[10px] text-[#212121] font-[500]">
                 Place of employment:{" "}
-                <span className="font-[400]">Not specified</span>{" "}
+                <span className="font-[400]">{profile?.location?.country}</span>{" "}
               </h1>
               <h1 className="mb-[10px] text-[#212121] font-[500]">
                 Subject: <span className="font-[400]">Biology</span>{" "}
@@ -164,7 +173,8 @@ const Profile = () => {
                 </Button>
               </div>
               <div>
-                <Button
+                <Button 
+                  onClick={()=>navigate(`/editProfile/${myid}`)}
                   sx={{ paddingY: "4px", paddingX: "40px", fontSize: "18px" }}
                   variant="contained"
                 >
@@ -266,7 +276,7 @@ const Profile = () => {
                       variant="outlined"
                       fullWidth
                       placeholder="Upload"
-                      // value={forName?.name}
+                      value={forName?.name}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -334,7 +344,7 @@ const Profile = () => {
                       >
                         {subDirection
                           .filter((e) => {
-                            if (e.scientificDirectionId == direct) {
+                            if (e.directionId == direct) {
                               return e;
                             }
                           })
