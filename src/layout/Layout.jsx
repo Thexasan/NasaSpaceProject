@@ -118,7 +118,7 @@ const Layout = () => {
                 <Link to="/">
                   <img src={globus} alt="" />
                 </Link>
-                <div>
+                <div className="overflow-visible">
                   <Search>
                     <SearchIconWrapper>
                       <svg
@@ -137,6 +137,7 @@ const Layout = () => {
                     </SearchIconWrapper>
                     <StyledInputBase placeholder="Search" />
                   </Search>
+                  {/* <div className="w-[430px] bg-[white] h-[300px] rounded-[15px]"></div> */}
                 </div>
               </div>
 
