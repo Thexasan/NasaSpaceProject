@@ -26,79 +26,81 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Seminar from "../../components/Seminar/Seminar";
+import './New.css'
+
+import planet from '../../assets/planet.png'
+
 const News = () => {
 
   return (
     <div>
-      <div className="pt-[70px]">
+      <div className="pt-[60px]">
         <div className="container1">
-          <div className="flex justify-center gap-[30px]">
-            <div className=" ">
-              <video
-                className="rounded-[10px]"
-                autoPlay
-                muted
-                src={earth}
-              ></video>
+          <div className="h-[580px] flex justify-between overflow-hidden items-center gradient rounded-[10px]">
+            <div className="text-[white] ml-[100px]">
+              <p className="text-[30px] text-justify text-[white]">Lorem ipsum dolor sit</p>
+              <p className="text-[85px] font-bold font-serif text-[gray]">SPACE</p>
+              <p className="text-[18px] w-[300px]  italic font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia porro minus, nostrum quisquam quo non necessitatibus fugit quam soluta consequuntur!</p>
             </div>
-
-            <div className="w-[62%] mt-[-5px]">
-              <video
-                className="rounded-[10px] h-[250px] "
-                autoPlay
-                muted
-                src={galaxy}
-              ></video>
-              <video
-                className="rounded-[10px] h-[300px]"
-                autoPlay
-                muted
-                src={wormhole}
-              ></video>
+            <div className="text-[white]">
+            <p className="text-[16px] w-[300px] text-justify italic font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex deserunt, est provident nemo amet quaerat, dolor quos in molestiae laborum eum corrupti quis? Odit eveniet 
+            fugiat perferendis, autem quod est.</p>
+            <p className="text-[16px] mt-[20px] text-justify w-[300px] italic font-bold text-[gray]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex deserunt, est provident nemo amet quaerat, dolor quos in molestiae laborum eum corrupti quis? Odit eveniet 
+            fugiat perferendis, autem quod est.</p>
             </div>
+            <img src={planet} className="h-[100%] object-cover" alt="" />
           </div>
         </div>
       </div>
-      <div className="pt-[100px]">
+      <div className="bgX pt-[60px]">
         <div className="container1">
           <div>
             <h1 className="text-[#212121] font-[500] text-[32px] text-center mb-[80px]">
               LATEST SCIENCE NEWS
             </h1>
             <div className="flex items-center justify-between">
-              <div>
+              <div className="w-[100%] flex flex-wrap justify-between">
                 <ScienceCard
-                  img={d5}
-                  text1="SciNat for September 2023 #4: an algorithm to predict the effect of point mutations, interesting facts about baby crying, whether paralysis can be defeated, and how to..."
-                  text2="SUNDAY, 24 SEPTEMBER"
+                  link="https://nasa.github.io/Transform-to-Open-Science/"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/topsbannersquare-e1692388644690.jpg"
+                  text1="Transform to Open Science (TOPS)"
+                  text2="Provides the visibility, advocacy, and community resources to support and enable the shift to open science."
                 />
                 <ScienceCard
-                  img={d4}
-                  text1="Mexican virologist Susana López Charretón uncovered rotaviruses’ secrets"
-                  text2="SUNDAY, 24 SEPTEMBER"
+                  link="https://science.nasa.gov/researchers/open-science/core-data-and-computing-services-program/"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/pia23780medium.jpg?resize=768,432"
+                  text1="Core Data and Computing"
+                  text2="The Core Data and Computing Services Program (CDCSP) will provide a layered architecture on which SMD science..."
                 />
                 <ScienceCard
-                  img={d2}
-                  text1="How a deadly fungus is so good at sticking to skin and other surfaces"
-                  text2="SUNDAY, 24 SEPTEMBER"
-                />
-              </div>
-              <div>
-                <ScienceCard
-                  img={we}
-                  text1="Nanoparticles for coloring biomolecules and QLED displays - why the Nobel Prize in Chemistry was awarded (2023)"
-                  text2="THURSDAY, 05 OCTOBER"
+                  link="https://science.nasa.gov/researchers/open-science/data-and-computing-architecture-study/"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/arc-2010-acd10-0054-007medium.jpg?resize=636,1024"
+                  text1="Data and Computing Architecture Study"
+                  text2="NASA’s Science Mission Directorate (SMD) Data and Computing Architecture study will investigate how a..."
                 />
                 <ScienceCard
-                  img={d3}
-                  text1="Pathogen spillover driven by rapid changes in bat ecology"
-                  text2="THURSDAY, 05 OCTOBER"
+                  link="https://science.nasa.gov/researchers/open-science/smd-ai-initiative/"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/ksc-20180515-ph-lch01-0022medium.jpg?resize=768,512"
+                  text1="Artificial Intelligence and Machine Learning"
+                  text2="NASA Science Mission Directorate’s (SMD) Strategy for Data Management and Computing for Groundbreaking..."
                 />
-
                 <ScienceCard
-                  img={d1}
-                  text1="Nature Index 2023 annual tables: first ranking of medical sciences shows big U.S. lead"
-                  text2="THURSDAY, 05 OCTOBER"
+                  link="https://science.nasa.gov/researchers/open-science/#"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/img-0001.jpg?resize=768,576"
+                  text1="Open-Source Science Awards"
+                  text2="As part of a Year of Open Science, NASA is awarding $2.7 million across several different projects this year, with a total..."
+                />
+                <ScienceCard
+                  link="https://science.nasa.gov/researchers/open-science/#:~:text=a%20significant%20public...-,Read%20More,-Science%20Mission%20Directorate"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/tops-booth.jpg?resize=768,576"
+                  text1="Scientific Information Policy"
+                  text2="The information produced as part of NASA’s scientific research activities represents a significant public..."
+                />
+                <ScienceCard
+                  link="https://science.data.nasa.gov/"
+                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/pia21970medium.jpg?resize=768,432"
+                  text1="Science Mission Directorate Science Data"
+                  text2="The purpose of the Science Data Repository pages is to provide a comprehensive list of NASA Science..."
                 />
               </div>
             </div>
@@ -108,7 +110,7 @@ const News = () => {
       <div className="pt-[80px] pb-[80px]">
         <div className="container1">
           <h1 className="text-[#212121] font-[500] text-[32px] text-center mb-[80px]">
-            Science seminars
+            Science resourses
           </h1>
           <div>
             <Swiper
@@ -140,50 +142,58 @@ const News = () => {
             >
               <SwiperSlide>
                 <Seminar
-                  bg={m1}
-                  text="Fallen Trees and Coding Dreams, or Near Real-Time Deforestation Monitoring"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC6MJu6_-g3bLiRqDnhhnpTXBKw8WH4q2QKg&usqp=CAU"
+                  text="James Webb Space Telescope"
+                  link="https://science.nasa.gov/mission/webb/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m2}
-                  text="How Stressors Shape Soil Communities & Their Functions in a Changing World"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7L7lGz1rTHPmJMEKaQGhi7SiDixMyuDgdCw&usqp=CAU"
+                  text="Perseverance Rover"
+                  link="https://science.nasa.gov/mission/mars-2020-perseverance/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m3}
-                  text="Fallen Trees and Coding Dreams, or Near Real-Time Deforestation Monitoring"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzvRfVstiIVVaFtswALG9QqX7Gx8zWUbFX0w&usqp=CAU"
+                  text="Parker Solar Probe"
+                  link="https://science.nasa.gov/mission/parker-solar-probe/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m4}
-                  text="When Worms and Germs Compete, Who Wins? REGISTERADD TO CALENDAR"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMCs0TwnsIMrL1mqR3jRZJV0BZlP9C_M6YQ&usqp=CAU"
+                  text="Juno"
+                  link="https://science.nasa.gov/mission/juno/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m1}
-                  text="Fallen Trees and Coding Dreams, or Near Real-Time Deforestation Monitoring"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC6MJu6_-g3bLiRqDnhhnpTXBKw8WH4q2QKg&usqp=CAU"
+                  text="James Webb Space Telescope"
+                  link="https://science.nasa.gov/mission/webb/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m2}
-                  text="How Stressors Shape Soil Communities & Their Functions in a Changing World"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7L7lGz1rTHPmJMEKaQGhi7SiDixMyuDgdCw&usqp=CAU"
+                  text="Perseverance Rover"
+                  link="https://science.nasa.gov/mission/mars-2020-perseverance/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m3}
-                  text="Fallen Trees and Coding Dreams, or Near Real-Time Deforestation Monitoring"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzvRfVstiIVVaFtswALG9QqX7Gx8zWUbFX0w&usqp=CAU"
+                  text="Parker Solar Probe"
+                  link="https://science.nasa.gov/mission/parker-solar-probe/"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <Seminar
-                  bg={m4}
-                  text="When Worms and Germs Compete, Who Wins? REGISTERADD TO CALENDAR"
+                  bg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMCs0TwnsIMrL1mqR3jRZJV0BZlP9C_M6YQ&usqp=CAU"
+                  text="Juno"
+                  link="https://science.nasa.gov/mission/juno/"
                 />
               </SwiperSlide>
             </Swiper>
