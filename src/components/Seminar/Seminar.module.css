@@ -6,6 +6,5 @@
     rgba(0, 0, 0, 0.29) 100%
   );
   object-fit: contain;
-
-
+  height: 100%;
 }

@@ -28,12 +28,9 @@ const AboutUs = () => {
               scientists, because now on our site you can communicate with each other from different continents.</p>
             </div>
           </div>
-          <div className="contatiner1 text-center my-[40px]">
-            <h1 className='text-[48px] font-bold'>Meet our development team</h1>
-          </div>
           <div className="container1 flex justify-center">
             <div className="w-[910px] flex flex-wrap py-[40px] justify-between">
-              <div className="w-[360px] h-[570px] text-start">
+              {/* <div className="w-[360px] h-[570px] text-start">
                 <img src={avatar1} className='w-[100%] h-[350px] rounded-[5px] object-cover bg-[gray]' alt="" />
                 <p className='text-[38px] font-bold'>Name Family</p>
                 <p className='text-[42px] text-[gray]'>Developer</p>
@@ -62,7 +59,7 @@ const AboutUs = () => {
                 <p className='text-[38px] font-bold'>Name Family</p>
                 <img src="" className='w-[100%] h-[450px] rounded-[5px] object-cover bg-[gray]' alt="" />
                 <p className='text-[42px] text-[gray]'>Developer</p>
-              </div>
+              </div> */}
             </div>
           </div>
       </div>
