@@ -178,7 +178,7 @@ const Layout = () => {
                   <Link to="/catalog">
                     <li onClick={()=>setSearchText("")}
                       style={{
-                        color: pathname == "/catalog" && "#0288D1" ,
+                        color: pathname == "/catalog" && "#0288D1",
                       }}
                       className=" text-[#9E9E9E] text-[16px] font-[400]"
                     >
@@ -298,13 +298,13 @@ const Layout = () => {
       >
         <div className="bg-[#F6F6F6] py-[33px]  ">
           <div className="container1">
-            <div className="flex items-center justify-evenly gap-[100px]">
+            <div className="flex items-center m-auto justify-around gap-[30px]">
               <div className="mr-[20px]">
                 <Link to="/">
                   <img src={bigglob} alt="" />
                 </Link>
               </div>
-              <div>
+              <div className="mr-auto">
                 <h1 className="text-[#202020] font-[500] text-[20px] mb-[14px]">
                   About the project
                 </h1>
@@ -323,7 +323,7 @@ const Layout = () => {
                 </ul>
               </div>
               <div className="">
-                <h1 className="w-[53%] mx-auto  text-center font-[400] text-[16px]">
+                <h1 className="w-[53%] m-auto  text-center font-[400] text-[16px]">
                   Only with Open project partners you will finally have the
                   opportunity to find scientists and projects according to your
                   interests.

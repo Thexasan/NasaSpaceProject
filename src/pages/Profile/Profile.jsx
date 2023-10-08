@@ -29,6 +29,7 @@ import {
 import { axiosRequest } from "../../utils/axiosRequest";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import NoData from "../../components/NoData/NoData";
+import { useNavigate } from "react-router-dom";
 const MenuProps = {
   PaperProps: {
     style: {
@@ -38,6 +39,8 @@ const MenuProps = {
   },
 };
 const Profile = () => {
+  const navigate = useNavigate();
+
   const [three, setThree] = useState(
     localStorage.three
       ? localStorage.three
@@ -50,18 +53,20 @@ const Profile = () => {
   const [direct, setDirect] = React.useState(null);
   const [direction, setDirection] = React.useState([]);
   const [subDirection, setSubDirection] = React.useState([]);
+  const [nameProject, setNameProject] = React.useState("");
+  const [vc, setVc] = React.useState([]);
 
   const handleChange = (event) => {
     const { value } = event.target;
     setPersonName(typeof value === "string" ? value.split(",") : value);
   };
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setForName(file)
+    setForName(file);
     if (file) {
       const fileUrl = URL.createObjectURL(file);
       setSelectedFile(fileUrl);
-    } 
+    }
   };
 
   async function getDirection() {
@@ -80,6 +85,36 @@ const Profile = () => {
       );
       setSubDirection(data.data);
     } catch (error) {}
+  }
+  // let ar = subDirection()
+  // post
+  async function postProject(event) {
+    event.preventDefault();
+
+    let ar = [];
+    personName.map((e) => {
+      return subDirection.map((el) => {
+        if (e == el.categoryName && direct == el.scientificDirectionId) {
+          ar.push(el.id);
+        }
+      });
+    });
+
+    try {
+      let addProject = new FormData();
+      addProject.append("CategoryId", JSON.stringify(ar));
+      addProject.append("ProjectFileName", forName);
+      addProject.append("ScientificDirectionId", direct);
+      addProject.append("Name", nameProject);
+
+      const { data } = await axiosRequest.post(
+        "ScienceProject/add-science-project",
+        addProject
+      );
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -193,7 +228,11 @@ const Profile = () => {
         style={{ display: three != "projects" ? "none" : "block" }}
       >
         <div className="container1">
-          <form className=" flex items-center justify-center flex-col">
+          {/* post  */}
+          <form
+            onSubmit={postProject}
+            className="flex items-center justify-center flex-col"
+          >
             <div>
               {projectShow ? (
                 <div className=" flex flex-col">
@@ -213,6 +252,8 @@ const Profile = () => {
                     <TextField
                       margin="normal"
                       fullWidth
+                      value={nameProject}
+                      onChange={(e) => setNameProject(e.target.value)}
                       label="Name"
                       name="name"
                       color="darkBlue"
@@ -222,7 +263,7 @@ const Profile = () => {
                       variant="outlined"
                       fullWidth
                       placeholder="Upload"
-                      value={forName?.name}
+                      // value={forName?.name}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -252,16 +293,15 @@ const Profile = () => {
                       }}
                       sx={{ mb: "30px" }}
                     />
-                    {
-                      selectedFile && 
+                    {selectedFile && (
                       <iframe
-                       className="mb-[30px]"
+                        className="mb-[30px]"
                         title="Embedded HTML Page"
                         src={selectedFile}
                         width="100%"
-                        height="400px" 
+                        height="400px"
                       ></iframe>
-                    }
+                    )}
                     <FormControl fullWidth sx={{ mb: "30px" }}>
                       <InputLabel>Direction</InputLabel>
                       <Select
@@ -286,7 +326,7 @@ const Profile = () => {
                         value={personName}
                         onChange={handleChange}
                         input={<OutlinedInput label="Tag" />}
-                        renderValue={(selected) => selected.join(", ")}
+                        renderValue={(selected) => selected.join(",")}
                         MenuProps={MenuProps}
                       >
                         {subDirection
@@ -315,7 +355,7 @@ const Profile = () => {
                   setPersonName([]);
                   setDirect([]);
                   setSelectedFile(null);
-                  setForName(null)
+                  setForName(null);
                 }}
                 sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
                 variant="contained"
@@ -324,7 +364,7 @@ const Profile = () => {
               </Button>
               {projectShow ? null : (
                 <Button
-                  type="submit  "
+                  type="submit"
                   sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
                   variant="contained"
                 >
@@ -333,6 +373,7 @@ const Profile = () => {
               )}
             </div>
           </form>
+          {/* post end */}
         </div>
       </div>
       <div
