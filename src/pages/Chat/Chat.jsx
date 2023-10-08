@@ -23,7 +23,7 @@ import { getToken } from '../../utils/token';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // import FadeMenu from './FadeMenu';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import chatcss from './Chat.module.css'
 import AddIcon from '@mui/icons-material/Add';
 import FadeMenu from './FadeMenu';
@@ -34,6 +34,8 @@ const Chat = () => {
     useEffect(() => {
       window.scrollTo(0, 0);
     }, []);
+
+    let {id} = useParams()
 
     const navigate = useNavigate()
 
@@ -51,8 +53,11 @@ const Chat = () => {
     const [modalChat, setModalChat] = useState(false)
     const [deleteId, setdeleteId] = useState(null)
 
-    const [modalAdd, setModalAdd] = useState(false)
+    const [modalAdd, setModalAdd] = useState(id != 0)
     const [searchText, setSearchText] = useState("")
+    const [timeId, setTimeId] = useState(id)
+
+    // console.log(username);
 
     // caht
     let chatContainerRef = useRef(null)
@@ -140,7 +145,6 @@ const Chat = () => {
             
         }
     }
-    console.log(chatID);
     // create Chat
     async function createChat(id, user){
         if(!chat.find(e=>e.sendUserId == id || e.receiveUserId == id)){
@@ -296,7 +300,7 @@ const Chat = () => {
                         </div>
                         <div className="w-[100%] h-[80%] flex flex-wrap justify-center content-start overflow-y-scroll " ref={chatContainerRef}>
                             <div className="w-[100%] py-[22px] text-center text-[12px] text-[#65676b]">
-                                <p>19 сен 2023 г., 16:43</p>
+                                {/* <p>19 сен 2023 г., 16:43</p> */}
                             </div>
                             {/* start chat */}
                             {
@@ -350,7 +354,7 @@ const Chat = () => {
                     <div className="w-[100%] h-[55px] flex justify-between items-center">
                         <div className='w-[55px] h-[55px]'></div>
                         <p className='text-[16px] font-bold'>New message</p>
-                        <button onClick={()=>{setModalAdd(false),setSearchText("")}} className='w-[55px] h-[55px]'><CloseIcon/></button>
+                        <button onClick={()=>{setModalAdd(false),setSearchText(""),setTimeId(null)}} className='w-[55px] h-[55px]'><CloseIcon/></button>
                     </div>
                     <div className="w-[100%] h-[40px] flex justify-start items-center pl-[20px] border-[1px] border-gray-300">
                         <p className='text-[16px] font-bold'>To :</p>
@@ -358,7 +362,7 @@ const Chat = () => {
                     </div>
                     <div className="w-[100%] h-[310px] overflow-y-auto flex flex-wrap justify-start content-start">
                         {
-                            user?.filter((e)=>e?.userName?.toLowerCase()?.includes(searchText?.toLowerCase() || e?.email?.toLowerCase()?.includes(searchText?.toLowerCase())))
+                            user?.filter((e)=>e?.userName?.toLowerCase()?.includes(searchText?.toLowerCase() || e?.email?.toLowerCase()?.includes(searchText?.toLowerCase())) || e.id == timeId)
                             .map((e)=> {
                                 return (
                                     <div className="w-[100%] hover:bg-[#efefef] px-[20px] flex justify-between items-center py-[10px] h-[76px]">
@@ -382,7 +386,7 @@ const Chat = () => {
                             })
                         }
                     </div>
-                    <button onClick={()=>{setModalAdd(false),setSearchText("")}} className='w-[100%] h-[40px] text-[#0095ee]'>
+                    <button onClick={()=>{setModalAdd(false),setSearchText(""),setTimeId(null)}} className='w-[100%] h-[40px] text-[#0095ee]'>
                         <p className='text-[15px] font-bold text-[#0095ee]'>Cancel</p>
                     </button>
                 </div>

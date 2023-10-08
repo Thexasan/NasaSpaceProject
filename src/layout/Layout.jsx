@@ -178,40 +178,18 @@ const Layout = () => {
                   </Search>
                   {searchText ? (
                     <div className="w-[430px] mt-[10px] text-[#9E9E9E] bg-[#efefef] overflow-y-auto z-[1] relative duration-[500ms] min-h-[0px] max-h-[400px] rounded-[10px] ml-[10px]">
-                      {arr
-                        ?.filter((e) =>
-                          e
-                            ?.toLowerCase()
-                            ?.includes(searchText?.trim()?.toLowerCase())
+                      {
+                        project?.filter((e) => e?.name?.toLowerCase()?.includes(searchText?.trim()?.toLowerCase())
                         )
                         ?.map((e, i) => {
-                          let logic =
-                            e
-                              ?.toLowerCase()
-                              .includes(searchText?.trim().toLowerCase()) &&
-                            e.length == searchText.length;
+                          let logic = e?.name?.toLowerCase().includes(searchText?.trim().toLowerCase())&&e?.name?.length == searchText.length;
                           return (
-                            <div
-                              key={i}
-                              className="w-[100%] p-[10px] hover:bg-[#c4c4c4] cursor-pointer flex justify-start items-center"
-                            >
-                              <p
-                                style={{ color: logic ? "#0288D1" : "" }}
-                                className="ml-[5px] text-[16px]"
-                              >
-                                {e.split(" ").map((u) => {
-                                  if (
-                                    u
-                                      ?.toLowerCase()
-                                      .includes(
-                                        searchText?.trim()?.toLowerCase()
-                                      )
-                                  ) {
+                            <div onClick={()=>{navigate(`/aboutProject/${e.id}`),setSearchText("")}} key={i} className="w-[100%] p-[10px] hover:bg-[#c4c4c4] cursor-pointer flex justify-start items-center">
+                              <p style={{ color: logic ? "#0288D1" : "" }} className="ml-[5px] text-[16px]">
+                                {e?.name?.split(" ").map((u) => {
+                                  if (u?.toLowerCase().includes(searchText?.trim()?.toLowerCase())) {
                                     return (
-                                      <span className="text-[#0288D1]">
-                                        {" "}
-                                        {u}{" "}
-                                      </span>
+                                      <span className="text-[#0288D1]">{" "}{u}{" "}</span>
                                     );
                                   }
                                   return <span> {u} </span>;
@@ -220,10 +198,7 @@ const Layout = () => {
                             </div>
                           );
                         })}
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                    </div>) : ("")}
                 </div>
               </div>
 
@@ -279,7 +254,7 @@ const Layout = () => {
                   {localStorage.getItem("access_token") ? (
                     <div className="text-center">
                       <IconButton
-                        onClick={() => navigate("/chat")}
+                        onClick={() => navigate("/chat/0")}
                         sx={{ mt: "8px" }}
                       >
                         <MessageOutlinedIcon />
@@ -366,6 +341,7 @@ const Layout = () => {
         </div>
       </div>
       <Outlet />
+      {!pathname.includes("chat")?
       <div
         className="footer"
         style={{ display: pathname == "/chat" ? "none" : "block" }}
@@ -406,7 +382,7 @@ const Layout = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>:""}
 
       <Dialog
         open={loginModal}
