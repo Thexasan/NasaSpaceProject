@@ -25,6 +25,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import chatcss from './Chat.module.css'
+import AddIcon from '@mui/icons-material/Add';
+import FadeMenu from './FadeMenu';
+
+import chatIcon from '../../assets/vaadin_chat.png'
 
 const Chat = () => {
     useEffect(() => {
@@ -75,7 +79,7 @@ const Chat = () => {
         try {
             let {data} = await axiosRequest.get('Chat/get-chats')
             setChat(data.data)
-            console.log(data.data);
+            // console.log(data.data);
         } catch (error) {
             
         }
@@ -86,7 +90,6 @@ const Chat = () => {
         try {
             let {data} = await axiosRequest.delete(`Chat/delete-chat?chatId=${deleteId}`)
             getChat()
-            // setChatID(null)
             setModalChat(false)
             setChatID(null)
         } catch (error) {
@@ -137,31 +140,28 @@ const Chat = () => {
             
         }
     }
+    console.log(chatID);
     // create Chat
-    async function createChat(id){
-        if(!chat.find(e=>e.sendUserId == id)){
+    async function createChat(id, user){
+        if(!chat.find(e=>e.sendUserId == id || e.receiveUserId == id)){
             try {
                 let {data} = await axiosRequest.post(`Chat/create-chat?resceiveUserId=${id}`)
                 getChat()
                 setModalAdd(false)    
                 setSearchText("")
             } catch (error) {
-                
             }
         }else{
-            let idChat = chat.find(e=> e.sendUserId == id).chatId
-            getMessage(idChat)
-            setChatID(idChat)
-            setModalAdd(false)
-            let thisUser = user.find(a=> a.id == id)
-            setUserX(thisUser)
+            console.log(id, chat?.find((e)=> e.receiveUserId == id || e.sendUserId == id).chatId);
+            setUserX(user)
+            setChatID(chat?.find((e)=> e?.receiveUserId == id || e.sendUserId == id).chatId)
+            getMessage(chat?.find((e)=> e?.receiveUserId == id || e.sendUserId == id).chatId)
+            setModalAdd(false)    
             setSearchText("")
         }
     }
     // sendUserId
     // receiveUserId
-
-    
 
     // useEffect(()=>{
     //   const initialTimeout = 1000; 
@@ -212,15 +212,15 @@ const Chat = () => {
             {/* users */}
             <div className="w-[29.2%] h-[100%] justify-center content-between flex flex-wrap border-r-[1px] border-r-gray-300">
                 <div className="w-[90%] h-[5%] mt-[20px] flex justify-between items-center">
-                    {/* <p className='text-[20px] font-bold'>{getToken()?.name}</p> */}
+                    <p className='text-[20px] font-bold'>{getToken()?.name}</p>
                     <p className='text-[20px] font-bold'>{getToken()?.userName}</p>
                     <button onClick={()=>setModalAdd(true)} className='w-[40px] h-[100%] hover:text-gray-500'>
-                        <EditCalendarOutlinedIcon style={{fontSize:"30px"}}/>
+                        <AddIcon style={{fontSize:"30px"}}/>
                     </button>
                 </div> 
                 <div className="w-[100%] h-[90%] bg-[#e7e7e7] mt-[10px] overflow-y-scroll border-t-[1px] border-t-gray-300">
                     {
-                      chat?.map((e)=>{        
+                      chat?.map((e,i)=>{        
                         let thisUser = user.find(a=> {
                                 if(e.receiveUserId !== myId){
                                     return a.id == e.receiveUserId
@@ -229,7 +229,7 @@ const Chat = () => {
                                 }
                           })
                           return(
-                            <div className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px] border-b-[1px] border-b-gray-300">  
+                            <div key={i} className="w-[100%] px-[10px] bg-[white] flex justify-between items-center py-[10px] h-[76px] border-b-[1px] border-b-gray-300">  
                                 <div onClick={()=>{getMessage(e.chatId),setUserX(thisUser)}} className="w-[80%] cursor-pointer flex">
                                   <div className="w-[60px] h-[60px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
                                     {/* <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/> */}
@@ -245,7 +245,7 @@ const Chat = () => {
                                   </div>
                                 </div>
                                 <button onClick={()=>{
-                                  // setdeleteId(e.chatId),
+                                  setdeleteId(e.chatId),
                                   setModalChat(true)
                                   }} className="w-[30px] h-[30px] flex justify-center cursor-pointer items-center text-[#737373] hover:text-[black] text-[25px]">
                                     <MoreVertIcon/>
@@ -263,12 +263,12 @@ const Chat = () => {
                     !chatID?
                     <div className="w-[100%] h-[100%] flex justify-center items-center">
                       <div className="w-[410px] text-center flex flex-wrap justify-center contents-start">
-                          <div className="w-[96px] h-[96px] rounded-[50px] flex justify-center items-center border-[3px] border-[black]">
+                          {/* <div className="w-[96px] h-[96px] rounded-[50px] flex justify-center items-center border-[3px] border-[black]">
                               <MessageOutlinedIcon style={{fontSize:"40px"}}/>
-                          </div>
-                          <p className='text-[20px] w-[100%] mt-[10px]'>Ваши сообщения</p>
-                          <p className='text-[14px] text-[#737373] mt-[8px] mb-[15px]'>Отправляйте личные фото и сообщения другу или группе</p>
-                          <button onClick={()=>setModalAdd(true)} className='w-[210px] h-[32px] rounded-[10px] text-[14px] text-[white] font-bold bg-[#0095f6]'>Отправить сообщение</button>
+                          </div> */}
+                              <img src={chatIcon} className='w-[200px] h-[200px]' alt="" />
+                          <p className='text-[20px] w-[100%] my-[10px]'>Your messages</p>
+                          <button onClick={()=>setModalAdd(true)} className='px-[40px] h-[35px] rounded-[12px] text-[15px] text-[white] font-bold bg-[#0095f6]'>Send Message</button>
                       </div>
                     </div>
                     :
@@ -304,27 +304,23 @@ const Chat = () => {
                               let logic = e.userId == myId
                               return(
                                 logic?<div className="w-[100%] justify-end my-[2px] flex mr-[10px]">
-                                        {/* {logic?<FadeMenu deleteMessage = {deleteMessage} id= {e.messageId}/>:null} */}
+                                        {logic?<FadeMenu deleteMessage = {deleteMessage} id= {e.messageId}/>:null}
                                         <p className='max-w-[654px] text-[white] bg-[#3797f0] overflow-hidden min-h-[34px]  text-[16px] py-[5px] px-[10px] rounded-t-lg rounded-l-lg'>{e?.messageText}</p>
                                 </div>:
                                 <div className="w-[100%] justify-start  my-[2px] flex ml-[10px]">
-                                <p className='max-w-[654px] bg-[#efefef] overflow-hidden min-h-[34px]  text-[16px] py-[5px] px-[10px] rounded-b-lg rounded-r-lg'>{e?.messageText}</p>
+                                    <p className='max-w-[654px] bg-[#efefef] overflow-hidden min-h-[34px]  text-[16px] py-[5px] px-[10px] rounded-b-lg rounded-r-lg'>{e?.messageText}</p>
                                 </div>        
                               )
                             })
                             }
                         </div>
-                        <div className="w-[100%] h-[10%] flex justify-center items-center bg-[white] top-[80%] rounded-[25px]">
-                            <div className="w-[95%] h-[45px] flex justify-center items-center rounded-[20px] border-[1px] border-gray-300">
-                                <form onSubmit={sendMessage} action="" className='w-[98%] flex justify-between items-center'>
-                                    <SentimentSatisfiedAltIcon style={{color:"black",fontSize:"28px"}}/>
-                                    <input value={text} onChange={(e)=>setText(e.target.value)} type="text" placeholder='Напишите сообщение' className='outline-none text-[15px] w-[80%] h-[40px]'/>
-                                    {text?<button type='submit' className='w-[15%] text-[14px] text-[#0095fe] hover:text-[#737373] font-bold'>Отправить</button>:
-                                    <div className="w-[15%] flex justify-between items-center pl-[25px]">
-                                        <KeyboardVoiceOutlinedIcon style={{color:"black",fontSize:"28px"}}/>
-                                        <ImageOutlinedIcon style={{color:"black",fontSize:"28px"}}/>
-                                        <FavoriteBorderOutlinedIcon style={{color:"black",fontSize:"28px"}}/>
-                                    </div>}
+                        <div className="w-[100%] h-[10%] flex justify-center items-center bg-[white] rounded-[25px]">
+                            <div className="w-[95%] h-[45px] flex justify-center items-center rounded-[12px] border-[1px] border-gray-300">
+                                <form onSubmit={sendMessage} action="" className='w-[98%] flex justify-evenly items-center'>
+                                    <input value={text} onChange={(e)=>setText(e.target.value)} type="text" placeholder='Write a message' className='outline-none text-[15px] w-[80%] h-[40px]'/>
+                                    {text?<button type='submit' className='w-[15%] text-end text-[14px] text-[#0095fe] hover:text-[#737373] font-bold'>Send</button>:
+                                    <div className="w-[15%]"></div>
+                                    }
                                 </form>
                             </div>
                         </div>
@@ -337,30 +333,27 @@ const Chat = () => {
         {   
             modalChat?
             <div style={{backgroundColor:"rgba(0, 0, 0, 0.5)"}} className="w-[100%] h-[110vh] top-0 left-0 fixed flex justify-center items-center">
-            <div className="w-[350px] h-[190px] flex flex-wrap justify-center content-evenly  rounded-[20px] bg-[white]">
+            <div className="w-[200px] h-[110px] flex flex-wrap justify-center content-evenly  rounded-[12px] bg-[white]">
                 <div onClick={()=>deleteChat()} className="w-[100%] h-[60px] cursor-pointer flex justify-center items-center border-b-[1px] border-b-gray-300 mt-[10px]">
-                    <p className='text-[14px] text-[red] font-bold'>Удалить данный чат</p>
+                    <p className='text-[14px] text-[red] font-bold'>Delete Chat</p>
                 </div>
-                <div className="w-[100%] h-[60px] cursor-pointer flex justify-center items-center border-b-[1px] border-b-gray-300">
-                    <p className='text-[14px] font-bold'>Заблокировать данного пользователя</p>
-                </div>
-                <div onClick={()=>setModalChat(false)} className="w-[100%] h-[60px] cursor-pointer flex justify-center items-center">
-                    <p className='text-[14px] font-bold'>Отмена</p>
+                <div onClick={()=>setModalChat(false)} className="w-[100%] h-[60px] text-[#2196F3] cursor-pointer flex justify-center items-center">
+                    <p className='text-[14px] font-bold'>Cancel</p>
                 </div>
             </div>
             </div>:""
         }
         {
             modalAdd?
-            <div style={{backgroundColor:"rgba(0, 0, 0, 0.5)"}} className="w-[100%] h-[110vh]  fixed flex justify-center items-center">
-                <div className="w-[500px] h-[450px] rounded-[20px] bg-[white]">
+            <div style={{backgroundColor:"rgba(0, 0, 0, 0.5)"}} className="w-[100%] h-[110vh] top-0 left-0 fixed flex justify-center items-center">
+                <div className="w-[500px] h-[450px] rounded-[12px] bg-[white]">
                     <div className="w-[100%] h-[55px] flex justify-between items-center">
                         <div className='w-[55px] h-[55px]'></div>
-                        <p className='text-[16px] font-bold'>Новое сообщение</p>
+                        <p className='text-[16px] font-bold'>New message</p>
                         <button onClick={()=>{setModalAdd(false),setSearchText("")}} className='w-[55px] h-[55px]'><CloseIcon/></button>
                     </div>
                     <div className="w-[100%] h-[40px] flex justify-start items-center pl-[20px] border-[1px] border-gray-300">
-                        <p className='text-[16px] font-bold'>Кому :</p>
+                        <p className='text-[16px] font-bold'>To :</p>
                         <input value={searchText} onChange={(e)=>setSearchText(e.target.value)} type="text" className='h-[38px] w-[75%] outline-none pl-[15px] text-[15px]' />
                     </div>
                     <div className="w-[100%] h-[310px] overflow-y-auto flex flex-wrap justify-start content-start">
@@ -381,8 +374,8 @@ const Chat = () => {
                                             <p className='text-[14px] w-[100%]'>{e?.userName}</p>
                                             <p className='text-[12px] text-[#737373]'>{e?.email}</p>
                                         </div>
-                                        <button onClick={()=>createChat(e.id)} className="w-[120px] h-[35px] flex justify-center cursor-pointer items-center rounded-[15px] bg-[gray] hover:bg-[#0095ee] font-bold text-[white] text-[12px]">
-                                            Отправить
+                                        <button onClick={()=>createChat(e.id, e)} className="w-[120px] h-[35px] flex justify-center cursor-pointer items-center rounded-[12px] bg-[gray] hover:bg-[#0095ee] font-bold text-[white] text-[12px]">
+                                            Message
                                         </button>
                                     </div>
                                 )
@@ -390,7 +383,7 @@ const Chat = () => {
                         }
                     </div>
                     <button onClick={()=>{setModalAdd(false),setSearchText("")}} className='w-[100%] h-[40px] text-[#0095ee]'>
-                        <p className='text-[15px] font-bold text-[#0095ee]'>Отмена</p>
+                        <p className='text-[15px] font-bold text-[#0095ee]'>Cancel</p>
                     </button>
                 </div>
             </div>:""

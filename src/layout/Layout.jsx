@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import globus from "../assets/globus.png";
 import bigglob from "../assets/bigglob.png";
@@ -84,6 +84,10 @@ const Layout = () => {
   const [profile, setProfile] = React.useState(null);
   const loginModal = useSelector((state) => state.states.loginModal);
 
+  const [searchText, setSearchText] = useState("")
+
+  const [arr,setArr] = useState(["lorem", "lorem ipsum", "candy", "title", "mike", "mike", "mike", "mike","mike", "mike", "mike", "mike","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto, ut."])
+
   const [forgot, setForgot] = React.useState(false);
   const handleMenu = (event) => {
     setProfile(event.currentTarget);
@@ -112,13 +116,13 @@ const Layout = () => {
       <div className="navbar">
         {/* <h1>{num}</h1> */}
         <div className={st1.walk}>
-          <div className="container1">
+          <div className="container1 h-[65px]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-[50px]">
+              <div className="flex items-center h-[64px] gap-[50px]">
                 <Link to="/">
                   <img src={globus} alt="" />
                 </Link>
-                <div>
+                <div className="overflow-visible h-[64px] pt-[10px]">
                   <Search>
                     <SearchIconWrapper>
                       <svg
@@ -135,23 +139,44 @@ const Layout = () => {
                         />
                       </svg>
                     </SearchIconWrapper>
-                    <StyledInputBase placeholder="Search" />
+                    <StyledInputBase value={searchText} onChange={(e)=>setSearchText(e.target.value)} placeholder="Search" />
                   </Search>
+                  {searchText?
+                  <div className="w-[430px] mt-[10px] text-[#9E9E9E] bg-[#efefef] overflow-y-auto z-[1] relative duration-[500ms] min-h-[0px] max-h-[400px] rounded-[10px] ml-[10px]">
+                    {
+                      arr?.filter((e)=> e?.toLowerCase()?.includes(searchText?.trim()?.toLowerCase()))
+                      ?.map((e,i)=>{
+                        let logic = e?.toLowerCase().includes(searchText?.trim().toLowerCase()) && e.length == searchText.length
+                        return (
+                          <div key={i} className="w-[100%] p-[10px] hover:bg-[#c4c4c4] cursor-pointer flex justify-start items-center">
+                            <p style={{color: logic?"#0288D1":""}} className="ml-[5px] text-[16px]">{
+                              e.split(" ").map((u)=>{
+                                if(u?.toLowerCase().includes(searchText?.trim()?.toLowerCase())){
+                                  return <span className="text-[#0288D1]"> {u} </span>
+                                }
+                                return <span> {u} </span>
+                              })
+                            }</p>
+                          </div>
+                        )
+                     })
+                    }
+                  </div>:""}
                 </div>
               </div>
 
               <div>
-                <ul className="flex items-center justify-evenly gap-[40px]">
+                <ul className="flex items-center justify-evenly gap-[30px]">
                   <Link to="/">
-                    <li
-                      style={{ color: pathname == "/" && "#0288D1" }}
+                    <li onClick={()=>setSearchText("")}
+                      style={{ color: pathname == "/" && "#0288D1"  }}
                       className="text-[16px] text-[#9E9E9E] font-[400]"
                     >
                       Home
                     </li>
                   </Link>
                   <Link to="/catalog">
-                    <li
+                    <li onClick={()=>setSearchText("")}
                       style={{
                         color: pathname == "/catalog" && "#0288D1",
                       }}
@@ -161,17 +186,15 @@ const Layout = () => {
                     </li>
                   </Link>
                   <Link to="/news">
-                    <li
-                      style={{
-                        color: pathname == "/news" && "#0288D1",
-                      }}
-                      className="text-[#9E9E9E] text-[16px] font-[400]"
-                    >
+                    <li onClick={()=>setSearchText("")}
+                    className="text-[#9E9E9E] text-[16px] font-[400]">
                       News
                     </li>
                   </Link>
-                  <Link to="/catalog">
-                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
+                 
+                  <Link to="/aboutUs">
+                    <li onClick={()=>setSearchText("")}
+                    className="text-[#9E9E9E] text-[16px] font-[400]">
                       About us
                     </li>
                   </Link>
@@ -243,6 +266,7 @@ const Layout = () => {
                       onClick={() => {
                         navigate("/profile");
                         handleClose();
+                        setSearchText("")
                       }}
                     >
                       Profile
@@ -252,6 +276,7 @@ const Layout = () => {
                         navigate("/");
                         destroyToken();
                         handleClose();
+                        setSearchText("")
                       }}
                     >
                       Logout
