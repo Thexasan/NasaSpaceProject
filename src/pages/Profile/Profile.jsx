@@ -102,10 +102,13 @@ const Profile = () => {
 
     try {
       let addProject = new FormData();
-      addProject.append("CategoryId", JSON.stringify(ar));
       addProject.append("ProjectFileName", forName);
       addProject.append("ScientificDirectionId", direct);
       addProject.append("Name", nameProject);
+
+      for (let i = 0; i < ar.length; i++) {
+        addProject.append("CategoryId", JSON.stringify(ar[i]));
+      }
 
       const { data } = await axiosRequest.post(
         "ScienceProject/add-science-project",
