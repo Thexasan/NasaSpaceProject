@@ -15,13 +15,14 @@ import {
 import "./App.css";
 import AuthCheck from "./utils/AuthCheck";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Loader from "./components/Loader/Loader";
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader/>}>
           <Layout />
         </Suspense>
       ),
@@ -29,7 +30,7 @@ const App = () => {
         {
           index: true,
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <Home />
             </Suspense>
           ),
@@ -37,7 +38,7 @@ const App = () => {
         {
           path: "catalog",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <Catalog />
             </Suspense>
           ),
@@ -45,7 +46,7 @@ const App = () => {
         {
           path: "aboutProject/:id",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <AboutProject />
             </Suspense>
           ),
@@ -53,7 +54,7 @@ const App = () => {
         {
           path: "profile",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
@@ -63,7 +64,7 @@ const App = () => {
         {
           path: "chat/:id",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <ProtectedRoute>
                 <Chat />
               </ProtectedRoute>
@@ -73,7 +74,7 @@ const App = () => {
         {
           path: "register",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <Register />
             </Suspense>
           ),
@@ -81,7 +82,7 @@ const App = () => {
         {
           path: "news",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <News />
             </Suspense>
           ),
@@ -89,7 +90,7 @@ const App = () => {
         {
           path: "aboutUs",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <AboutUs />
             </Suspense>
           ),
@@ -97,7 +98,7 @@ const App = () => {
         {
           path: "editProfile/:id",
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loader/>}>
               <EditProfile />
             </Suspense>
           ),
