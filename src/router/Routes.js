@@ -7,4 +7,6 @@ export const AboutProject = lazy(() => import("../pages/AboutProject/AboutProjec
 export const Profile = lazy(() => import("../pages/Profile/Profile"));
 export const Register = lazy(() => import("../pages/Register/Register"));
 export const Chat = lazy(() => import("../pages/Chat/Chat"));
+export const News = lazy(() => import("../pages/News/News"));
+export const AboutUs = lazy(() => import("../pages/AboutUs/AboutUs"));
 

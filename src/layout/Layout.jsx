@@ -160,14 +160,14 @@ const Layout = () => {
                       Catalog
                     </li>
                   </Link>
-                  <Link to="/catalog">
-                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
+                  <Link to="/news">
+                    <li
+                      style={{
+                        color: pathname == "/news" && "#0288D1",
+                      }}
+                      className="text-[#9E9E9E] text-[16px] font-[400]"
+                    >
                       News
-                    </li>
-                  </Link>
-                  <Link to="/catalog">
-                    <li className="text-[#9E9E9E] text-[16px] font-[400]">
-                      Seminars
                     </li>
                   </Link>
                   <Link to="/catalog">
