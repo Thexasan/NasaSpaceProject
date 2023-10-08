@@ -38,15 +38,16 @@ const News = () => {
         <div className="container1">
           <div className="h-[580px] flex justify-between overflow-hidden items-center gradient rounded-[10px]">
             <div className="text-[white] ml-[100px]">
-              <p className="text-[30px] text-justify text-[white]">Lorem ipsum dolor sit</p>
+              <p className="text-[30px] text-justify text-[white]">INFO SPHERE</p>
               <p className="text-[85px] font-bold font-serif text-[gray]">SPACE</p>
-              <p className="text-[18px] w-[300px]  italic font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia porro minus, nostrum quisquam quo non necessitatibus fugit quam soluta consequuntur!</p>
+              <p className="text-[16px] mt-[20px] text-justify w-[300px] italic font-bold text-[white]">Unlocking the Future of Science, One Collaboration at a Time.</p>
+              
             </div>
             <div className="text-[white]">
-            <p className="text-[16px] w-[300px] text-justify italic font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex deserunt, est provident nemo amet quaerat, dolor quos in molestiae laborum eum corrupti quis? Odit eveniet 
-            fugiat perferendis, autem quod est.</p>
-            <p className="text-[16px] mt-[20px] text-justify w-[300px] italic font-bold text-[gray]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex deserunt, est provident nemo amet quaerat, dolor quos in molestiae laborum eum corrupti quis? Odit eveniet 
-            fugiat perferendis, autem quod est.</p>
+            <p className="text-[16px] w-[300px] text-justify italic font-bold">"Connecting Minds, Accelerating Discoveries, Empowering Science."
+
+This slogan emphasizes the core purpose of your platform: bringing together individuals and ideas to drive scientific progress.</p>
+<p className="text-[18px] w-[300px]  italic font-bold">We create the Future!!!</p>
             </div>
             <img src={planet} className="h-[100%] object-cover" alt="" />
           </div>
