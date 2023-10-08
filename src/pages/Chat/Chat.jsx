@@ -57,11 +57,7 @@ const Chat = () => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
       }
-    };
-  
-    // Scroll to the bottom when messages or selectedUser change
-    
-
+    };    
 
     // get User
     async function getUser(){
@@ -127,7 +123,7 @@ const Chat = () => {
             }
             else{
                 getMessage(chatID)
-                alert("Plz type some text !")
+                // alert("Plz type some text !")
             }
         // console.log(`chatId: ${chatID}, messageText: ${text}`);
     }
@@ -165,19 +161,40 @@ const Chat = () => {
     // sendUserId
     // receiveUserId
 
+    
+
+    // useEffect(()=>{
+    //   const initialTimeout = 1000; 
+
+    //   const initialTimeoutId = setTimeout(() => {
+        
+    //   getMessage(chatID)
+    //   }, initialTimeout);
+  
+    //   const interval = setInterval(() => {
+        
+    //   getMessage(chatID)
+    //   }, 5000);
+    //   return () => {
+    //     clearTimeout(initialTimeoutId);
+    //     clearInterval(interval);
+    //   };
+    // },[])
+
     useEffect(()=>{
-        getUser()
-        getChat()
+
+      getUser()
+      getChat()
     },[])
 
     useEffect(() => {
       scrollToBottom();
-    }, [chatID]);
+    }, [chatID, sendMessage]);
 
     return (
-      <div className='ml-[0px] container1 h-[90vh] flex justify-center items-center'>
+      <div className='ml-[0px] container1 flex justify-between items-center'>
           {/* sideBar */}
-        <div className="w-[80px] h-[86vh] mr-[10px] flex flex-wrap justify-center content-between rounded-[25px] bg-[#3797f0]">
+        <div className="w-[80px] h-[680px] mr-[10px] flex flex-wrap justify-center content-between rounded-[25px] bg-[#3797f0]">
           <div className="w flex flex-wrap justify-center content-between">
             <div className="w-[52px] h-[52px] mt-[24px] overflow-hidden rounded-[50%] border-[2px] bg-[gray] border-[#efefef] flex justify-center items-center">
               <AccountCircleIcon style={{fontSize:"80px", color:"#efefef", backgroundColor:"white"}}/>
@@ -189,14 +206,14 @@ const Chat = () => {
           </div>
           <div className={`chatcss.hoverBtn w-[65px] h-[65px] rounded-[10px] mb-[15px] text-[white] flex justify-center items-center`}><LogoutOutlinedIcon style={{fontSize:"30px"}}/></div>
         </div>  
-
+        <div className="w h-[710px]"></div>
         {/* chat */}
-        <div className="w-[90%] flex border-[1px] border-gray-300 rounded-[25px]">
+        <div className="w-[92%] h-[680px] overflow-hidden flex border-[1px] border-gray-300 rounded-[25px]">
             {/* users */}
-            <div className="w-[29.2%] h-[86vh] justify-center content-between flex flex-wrap border-r-[1px] border-r-gray-300">
+            <div className="w-[29.2%] h-[100%] justify-center content-between flex flex-wrap border-r-[1px] border-r-gray-300">
                 <div className="w-[90%] h-[5%] mt-[20px] flex justify-between items-center">
                     {/* <p className='text-[20px] font-bold'>{getToken()?.name}</p> */}
-                    <p className='text-[20px] font-bold'>userName</p>
+                    <p className='text-[20px] font-bold'>{getToken().userName}</p>
                     <button onClick={()=>setModalAdd(true)} className='w-[40px] h-[100%] hover:text-gray-500'>
                         <EditCalendarOutlinedIcon style={{fontSize:"30px"}}/>
                     </button>
@@ -241,7 +258,7 @@ const Chat = () => {
             </div>
 
             {/* message */}
-            <div className="w-[71.5%] h-[86vh] mr-[10px] mt-[1px]">
+            <div className="w-[71.5%] h-[100%] mr-[10px] mt-[1px]">
                   {
                     !chatID?
                     <div className="w-[100%] h-[100%] flex justify-center items-center">
@@ -260,63 +277,42 @@ const Chat = () => {
                             <div className="w-[40%] flex my-[20px] h-[44px]">
                                 <div className="w-[44px] h-[44px] border-[2px] border-[#efefef] flex justify-center items-center overflow-hidden rounded-[50%] ml-[20px]">
                                     {
-                                        // userX.avatar?
-                                        // <img src={`${import.meta.env.VITE_APP_FILES_URL}${userX?.avatar}`} className='h-[44px] object-cover' alt="" />:
+                                        userX.avatar?
+                                        <img src={`${import.meta.env.VITE_APP_FILES_URL}${userX?.avatar}`} className='h-[44px] object-cover' alt="" />:
                                         <AccountCircleIcon style={{fontSize:"70px", color:"#efefef"}}/>
                                     }
                                 </div>
                                 <div className="w-[200px] cursor-pointer ml-[10px] flex flex-wrap justify-start content-evenly">
-                                    <p className='text-[16px] font-bold w-[100%]'>{userX?.userName} name</p>
+                                    <p className='text-[16px] font-bold w-[100%]'>{userX?.userName}</p>
                                 </div>
                             </div>
                             
                             <button onClick={()=>{
-                            setdeleteId(e.chatId),
+                            setdeleteId(chatID),
                             setModalChat(true)
                             }} className="w-[45px] h-[45px] mr-[5px] flex justify-center cursor-pointer items-center text-[#737373] hover:text-[black] text-[25px]">
                             <MoreVertIcon/>
                             </button>
                         </div>
                         <div className="w-[100%] h-[80%] flex flex-wrap justify-center content-start overflow-y-scroll " ref={chatContainerRef}>
-                            <div className="w-[100%] h-[274px] flex flex-wrap justify-center content-center text-center">
-                                <div className="w-[96px] h-[96px] border-[2px] border-[#efefef] flex justify-center items-center overflow-hidden rounded-[50%]">
-                                    {
-                                        // userX.avatar?
-                                        // <img src={`${import.meta.env.VITE_APP_FILES_URL}${userX?.avatar}`} className='h-[56px] object-cover' alt="" />:
-                                        <AccountCircleIcon style={{fontSize:"150px", color:"#efefef"}}/>
-                                    }
-                                </div>
-                                <p className='text-[20px] font-bold w-[100%] mt-[15px]'>{userX?.userName} name</p>
-                                <p className='text-[14px] text-[#737373] w-[100%]'>{userX?.email} mail</p>
-                                <button onClick={()=>navigate(`/basic/userProfile/${userX.id}`)} className='w-[164px] h-[32px] rounded-[10px] text-[14px] mt-[20px] font-bold bg-[#efefef]'><p>Смотреть профиль</p></button>
-                            </div>
-                            {/* user's avatar and info  */}
                             <div className="w-[100%] py-[22px] text-center text-[12px] text-[#65676b]">
                                 <p>19 сен 2023 г., 16:43</p>
                             </div>
                             {/* start chat */}
                             {
-                            message?.map((e)=>{
-                                let logic = e.userId == myId
-                                return(
-                                    logic?<div style={{justifyContent:logic?"end":"start"}} className="w-[100%] my-[2px] flex mr-[10px]">
+                              message?.map((e)=>{
+                              let logic = e.userId == myId
+                              return(
+                                logic?<div className="w-[100%] justify-end my-[2px] flex mr-[10px]">
                                         {/* {logic?<FadeMenu deleteMessage = {deleteMessage} id= {e.messageId}/>:null} */}
-                                        <p style={{backgroundColor:logic?"#3797f0":"#efefef",color:logic?"white":"black"}} className='max-w-[654px] overflow-hidden min-h-[34px]  text-[15px] py-[5px] px-[10px] rounded-[12px]'>{e?.messageText}</p>
-                                    </div>:
-                                    <div style={{justifyContent:logic?"end":"start"}} className="w-[100%] my-[2px] flex mr-[10px]">
-                                    {/* {logic?<FadeMenu deleteMessage = {deleteMessage} id= {e.messageId}/>:null} */}
-                                    <p style={{backgroundColor:logic?"#3797f0":"#efefef",color:logic?"white":"black"}} className='max-w-[654px] overflow-hidden min-h-[34px]  text-[15px] py-[5px] px-[10px] rounded-[12px]'>{e?.messageText}</p>
-                                    </div>        
-                                  )
+                                        <p className='max-w-[654px] text-[white] bg-[#3797f0] overflow-hidden min-h-[34px]  text-[16px] py-[5px] px-[10px] rounded-t-lg rounded-l-lg'>{e?.messageText}</p>
+                                </div>:
+                                <div className="w-[100%] justify-start  my-[2px] flex ml-[10px]">
+                                <p className='max-w-[654px] bg-[#efefef] overflow-hidden min-h-[34px]  text-[16px] py-[5px] px-[10px] rounded-b-lg rounded-r-lg'>{e?.messageText}</p>
+                                </div>        
+                              )
                             })
-                            
                             }
-                            <div style={{justifyContent:"end"}} className="w-[100%] my-[2px] flex mr-[10px]">
-                              {/* <div className="w-[28px] h-[28px] mx-[10px] border-[2px] border-[#efefef] flex justify-center items-center overflow-hidden rounded-[50%]">
-                                <AccountCircleIcon style={{fontSize:"30px", color:"#efefef"}}/>
-                              </div> */}
-                              <p style={{backgroundColor:"#3797f0",color:"white"}} className='max-w-[654px] overflow-hidden min-h-[34px]  text-[18px] py-[5px] px-[14px] rounded-t-lg rounded-l-lg'>Hi, your work is amazing.</p>
-                            </div>
                         </div>
                         <div className="w-[100%] h-[10%] flex justify-center items-center bg-[white] top-[80%] rounded-[25px]">
                             <div className="w-[95%] h-[45px] flex justify-center items-center rounded-[20px] border-[1px] border-gray-300">
