@@ -9,6 +9,8 @@ import facebook from "../../assets/facebook.png";
 import instagram from "../../assets/instagram.png";
 import vk from "../../assets/vk.png";
 import ok from "../../assets/ok.png";
+import rustam from "../../assets/Rutam.pdf";
+
 import profcss from "./Profile.module.css";
 import {
   Box,
@@ -44,18 +46,22 @@ const Profile = () => {
   const [personName, setPersonName] = React.useState([]);
   const [projectShow, setProjectShow] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [forName, setForName] = useState(null);
   const [direct, setDirect] = React.useState(null);
   const [direction, setDirection] = React.useState([]);
   const [subDirection, setSubDirection] = React.useState([]);
-  const [] = React.useState([]);
 
   const handleChange = (event) => {
     const { value } = event.target;
     setPersonName(typeof value === "string" ? value.split(",") : value);
   };
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file);
+    setForName(file)
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setSelectedFile(fileUrl);
+    } 
   };
 
   async function getDirection() {
@@ -216,7 +222,7 @@ const Profile = () => {
                       variant="outlined"
                       fullWidth
                       placeholder="Upload"
-                      value={selectedFile?.name}
+                      value={forName?.name}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -246,6 +252,16 @@ const Profile = () => {
                       }}
                       sx={{ mb: "30px" }}
                     />
+                    {
+                      selectedFile && 
+                      <iframe
+                       className="mb-[30px]"
+                        title="Embedded HTML Page"
+                        src={selectedFile}
+                        width="100%"
+                        height="400px" 
+                      ></iframe>
+                    }
                     <FormControl fullWidth sx={{ mb: "30px" }}>
                       <InputLabel>Direction</InputLabel>
                       <Select
@@ -262,73 +278,32 @@ const Profile = () => {
                       </Select>
                     </FormControl>
 
-                    {subDirection.filter((e) => {
-                      if (e.scientificDirectionId == direct) {
-                        return e;
-                      }
-                    }).length != 0 ? (
-                      <FormControl sx={{ width: "100%" }}>
-                        <InputLabel>Sub Direction</InputLabel>
-                        <Select
-                          sx={{ mb: "30px" }}
-                          multiple
-                          value={personName}
-                          onChange={handleChange}
-                          input={<OutlinedInput label="Tag" />}
-                          renderValue={(selected) => selected.join(", ")}
-                          MenuProps={MenuProps}
-                        >
-                          {subDirection
-                            .filter((e) => {
-                              if (e.scientificDirectionId == direct) {
-                                return e;
-                              }
-                            })
-                            .map((elem) => {
-                              return (
-                                <MenuItem
-                                  key={elem.id}
-                                  value={elem.categoryName}
-                                >
-                                  <ListItemText primary={elem.categoryName} />
-                                </MenuItem>
-                              );
-                            })}
-                        </Select>
-                      </FormControl>
-                    ) : (
-                      <FormControl sx={{ width: "100%" }}>
-                        <InputLabel>Sub Direction</InputLabel>
-                        <Select
-                          disabled
-                          sx={{ mb: "30px" }}
-                          multiple
-                          value={personName}
-                          onChange={handleChange}
-                          input={<OutlinedInput label="Tag" />}
-                          renderValue={(selected) => selected.join(", ")}
-                          MenuProps={MenuProps}
-                        >
-                          {subDirection
-                            .filter((e) => {
-                              if (e.scientificDirectionId == direct) {
-                                return e;
-                              }
-                            })
-                            .map((elem) => {
-                              return (
-                                <MenuItem
-                                  key={elem.id}
-                                  value={elem.categoryName}
-                                >
-                                  <ListItemText primary={elem.categoryName} />
-                                </MenuItem>
-                              );
-                            })}
-                        </Select>
-                        <NoData />
-                      </FormControl>
-                    )}
+                    <FormControl sx={{ width: "100%" }}>
+                      <InputLabel>Sub Direction</InputLabel>
+                      <Select
+                        sx={{ mb: "30px" }}
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Tag" />}
+                        renderValue={(selected) => selected.join(", ")}
+                        MenuProps={MenuProps}
+                      >
+                        {subDirection
+                          .filter((e) => {
+                            if (e.scientificDirectionId == direct) {
+                              return e;
+                            }
+                          })
+                          .map((elem) => {
+                            return (
+                              <MenuItem key={elem.id} value={elem.categoryName}>
+                                <ListItemText primary={elem.categoryName} />
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
                   </div>
                 </div>
               )}
@@ -340,6 +315,7 @@ const Profile = () => {
                   setPersonName([]);
                   setDirect([]);
                   setSelectedFile(null);
+                  setForName(null)
                 }}
                 sx={{ paddingY: "4px", paddingX: "80px", fontSize: "18px" }}
                 variant="contained"
