@@ -11,6 +11,7 @@ import vk from "../../assets/vk.png";
 import ok from "../../assets/ok.png";
 import rustam from "../../assets/Rutam.pdf";
 import hole from "../../assets/hole.png";
+import userr from "../../assets/user.png";
 
 import profcss from "./Profile.module.css";
 import {
@@ -127,6 +128,11 @@ const Profile = () => {
       );
       getProjects();
       setAnother(false);
+      setForName(null)
+      setDirect(null)
+      setNameProject("")
+      setPersonName([])
+      setSelectedFile(null)
     } catch (error) {
       console.log(error);
     }
@@ -159,9 +165,13 @@ const Profile = () => {
                 <div>
                   <img
                     className="w-[200px] h-[200px] rounded-[100%] object-cover"
-                    src={`${import.meta.env.VITE_APP_FILES_URL}${
+                    src={
                       profile?.avatar
-                    }`}
+                        ? `${import.meta.env.VITE_APP_FILES_URL}${
+                            profile?.avatar
+                          }`
+                        : userr
+                    }
                     alt=""
                   />
                 </div>
@@ -181,15 +191,17 @@ const Profile = () => {
               </h1>
             </div>
             <div className="mb-[-100px]">
-              <div className="mb-[30px]">
-                <Button
-                  onClick={() => setAnother(true)}
-                  sx={{ paddingY: "4px", paddingX: "16px", fontSize: "18px" }}
-                  variant="contained"
-                >
-                  Publish project
-                </Button>
-              </div>
+              {project.filter((elem) => elem.userId == myid).length != 0 ? (
+                <div className="mb-[30px]">
+                  <Button
+                    onClick={() => setAnother(true)}
+                    sx={{ paddingY: "4px", paddingX: "16px", fontSize: "18px" }}
+                    variant="contained"
+                  >
+                    Publish project
+                  </Button>
+                </div>
+              ) : null}
               <div>
                 <Button
                   onClick={() => navigate(`/editProfile/${myid}`)}
@@ -268,7 +280,8 @@ const Profile = () => {
               <div
                 style={{
                   display:
-                    projectShow == true && project.length == 0
+                    projectShow == true &&
+                    project.filter((elem) => elem.userId == myid).length == 0
                       ? "block"
                       : "none",
                 }}
@@ -283,7 +296,8 @@ const Profile = () => {
               <div
                 style={{
                   display:
-                    projectShow == false && project.length == 0
+                    projectShow == false &&
+                    project.filter((elem) => elem.userId == myid).length == 0
                       ? "block"
                       : "none",
                 }}
@@ -391,21 +405,23 @@ const Profile = () => {
                 </div>
               </div>
               <div>
-                {project.map((e) => {
-                  return (
-                    <ProjectCard
-                      img={hole}
-                      heading={e?.name}
-                      id={e?.id}
-                      fullnames={e?.fullName}
-                      desc={
-                        " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
-                      }
-                      clas="first"
-                      subject={e?.scientificDirectionName}
-                    />
-                  );
-                })}
+                {project
+                  .filter((elem) => elem.userId == myid)
+                  .map((e) => {
+                    return (
+                      <ProjectCard
+                        img={hole}
+                        heading={e?.name}
+                        id={e?.id}
+                        fullnames={e?.fullName}
+                        desc={
+                          " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                        }
+                        clas="first"
+                        subject={e?.scientificDirectionName}
+                      />
+                    );
+                  })}
               </div>
             </div>
             <div className="flex items-center gap-[20px]">
@@ -422,7 +438,8 @@ const Profile = () => {
                   paddingX: "80px",
                   fontSize: "18px",
                   display:
-                    projectShow == true && project.length == 0
+                    projectShow == true &&
+                    project.filter((elem) => elem.userId == myid).length == 0
                       ? "block"
                       : "none",
                 }}
@@ -443,7 +460,8 @@ const Profile = () => {
                   paddingX: "80px",
                   fontSize: "18px",
                   display:
-                    projectShow == false && project.length == 0
+                    projectShow == false &&
+                    project.filter((elem) => elem.userId == myid).length == 0
                       ? "block"
                       : "none",
                 }}
@@ -458,7 +476,8 @@ const Profile = () => {
                   paddingX: "80px",
                   fontSize: "18px",
                   display:
-                    projectShow == false && project.length == 0
+                    projectShow == false &&
+                    project.filter((elem) => elem.userId == myid).length == 0
                       ? "block"
                       : "none",
                 }}
@@ -578,7 +597,7 @@ const Profile = () => {
         <h1 className="text-[#212121] text-[23px]  w-[80%] m-auto  pt-[50px]  font-[500] text-center">
           To publish the project you need to upload your file in PDF format
         </h1>
-       
+
         <form
           onSubmit={postProject}
           className="w-[500px] m-auto  pb-[50px] px-[20px]"
@@ -692,9 +711,7 @@ const Profile = () => {
           onClick={() => setAnother(false)}
         >
           <svg
-            
             xmlns="http://www.w3.org/2000/svg"
-
             width="24"
             height="24"
             viewBox="0 0 24 24"

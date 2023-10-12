@@ -8,8 +8,12 @@ import { axiosRequest } from "../../utils/axiosRequest";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import rustam from "../../assets/Rutam.pdf";
+import { useDispatch } from "react-redux";
+import { handleChange } from "../../reducers/states";
 const AboutProject = () => {
   const { id } = useParams();
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [thisProject, setThisProject] = useState({});
   const [user, setUser] = useState([]);
@@ -83,14 +87,27 @@ const AboutProject = () => {
                     habitat.
                   </p>
                 </div>
+                {
+                  localStorage.getItem("access_token") ? 
+                  <Button
+                    sx={{ paddingY: "6px", paddingX: "16px" }}
+                    variant="contained"
+                    endIcon={<ArrowForwardIosIcon />}
+                    onClick={() => navigate(`/chat/${thisProject?.userId}`)}
+                  >
+                    DISCUSS
+                  </Button>:
                 <Button
                   sx={{ paddingY: "6px", paddingX: "16px" }}
                   variant="contained"
                   endIcon={<ArrowForwardIosIcon />}
-                  onClick={() => navigate(`/chat/${thisProject?.userId}`)}
+                  onClick={() =>{ 
+                    navigate("/")
+                    dispatch(handleChange({type:"loginModal", value:true}))}}
                 >
                   DISCUSS
                 </Button>
+                }
                 {/* <h1>{thisProject?.projectFileName }</h1> */}
               </div>
             </div>

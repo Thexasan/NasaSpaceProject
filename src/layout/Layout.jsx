@@ -77,17 +77,12 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-
   const [project, setProject] = useState([])
-
   const [show1, setShow1] = React.useState(false);
   const [password, setPassword] = React.useState("");
-
   const [profile, setProfile] = React.useState(null);
   const loginModal = useSelector((state) => state.states.loginModal);
-
   const [searchText, setSearchText] = useState("");
-
   const [arr, setArr] = useState([
     "lorem",
     "lorem ipsum",
@@ -103,7 +98,6 @@ const Layout = () => {
     "mike",
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto, ut.",
   ]);
-
   const [forgot, setForgot] = React.useState(false);
   const handleMenu = (event) => {
     setProfile(event.currentTarget);
@@ -111,7 +105,6 @@ const Layout = () => {
   const handleClose = () => {
     setProfile(null);
   };
-
   const SignIn = async (event) => {
     event.preventDefault();
     try {
@@ -121,13 +114,11 @@ const Layout = () => {
       };
       const { data } = await axiosRequest.post("Account/login", user);
       saveToken(data.data);
-      navigate("/");
+      navigate("/profile");
       setPassword("");
       dispatch(handleChange({ type: "loginModal", value: false }))``;
     } catch (error) {}
   };
-
-  // getProject
   async  function getProject(){
     try {
       let {data} = await axiosRequest.get(`ScienceProject/get-science-projects`)
@@ -137,11 +128,9 @@ const Layout = () => {
       
     }
   }
-
   useEffect(()=>{
     getProject()
   },[])
-
   return (
     <div>
       <div className="navbar">
