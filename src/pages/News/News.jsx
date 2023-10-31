@@ -60,7 +60,7 @@ This slogan emphasizes the core purpose of your platform: bringing together indi
               LATEST SCIENCE NEWS
             </h1>
             <div className="flex items-center justify-between">
-              <div className="w-[100%] flex flex-wrap justify-between">
+              <div className="w-[100%] flex flex-wrap justify-evenly gap-[2px]">
                 <ScienceCard
                   link="https://nasa.github.io/Transform-to-Open-Science/"
                   img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/topsbannersquare-e1692388644690.jpg"
@@ -96,12 +96,6 @@ This slogan emphasizes the core purpose of your platform: bringing together indi
                   img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/tops-booth.jpg?resize=768,576"
                   text1="Scientific Information Policy"
                   text2="The information produced as part of NASA’s scientific research activities represents a significant public..."
-                />
-                <ScienceCard
-                  link="https://science.data.nasa.gov/"
-                  img="https://smd-cms.nasa.gov/wp-content/uploads/2021/10/pia21970medium.jpg?resize=768,432"
-                  text1="Science Mission Directorate Science Data"
-                  text2="The purpose of the Science Data Repository pages is to provide a comprehensive list of NASA Science..."
                 />
               </div>
             </div>

@@ -28,6 +28,7 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import Burger from "../components/Burger/Burger";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -142,7 +143,7 @@ const Layout = () => {
                 <Link to="/">
                   <img src={globus} alt="" />
                 </Link>
-                <div className="overflow-visible h-[64px] pt-[10px]">
+                <div className="overflow-visible h-[64px] pt-[10px] md:block sm:hidden">
                   <Search>
                     <SearchIconWrapper>
                       <svg
@@ -191,7 +192,7 @@ const Layout = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="lg:block sm:hidden">
                 <ul className="flex items-center justify-evenly gap-[30px]">
                   <Link to="/">
                     <li
@@ -238,7 +239,10 @@ const Layout = () => {
                   </Link>
                 </ul>
               </div>
-              <div className="flex items-center justify-evenly gap-[20px]">
+              <div className="lg:hidden">
+                <Burger/>
+              </div>
+              <div className="flex items-center justify-evenly gap-[20px] lg:flex sm:hidden">
                 <div>
                   {localStorage.getItem("access_token") ? (
                     <div className="text-center">
@@ -331,19 +335,21 @@ const Layout = () => {
       </div>
       <Outlet />
       {!pathname.includes("chat")?
-      <div
+      <div 
+
+      
         className="footer"
         style={{ display: pathname == "/chat" ? "none" : "block" }}
       >
         <div className="bg-[#F6F6F6] py-[33px]  ">
           <div className="container1">
-            <div className="flex items-center m-auto justify-around gap-[30px]">
+            <div className="flex items-center m-auto md:justify-around gap-[30px] md:flex-row flex-col justify-center ">
               <div className="mr-[20px]">
                 <Link to="/">
                   <img src={bigglob} alt="" />
                 </Link>
               </div>
-              <div className="mr-auto">
+              <div className="md:mr-auto">
                 <h1 className="text-[#202020] font-[500] text-[20px] mb-[14px]">
                   About the project
                 </h1>
@@ -352,7 +358,7 @@ const Layout = () => {
                   <li>Information support</li>
                 </ul>
               </div>
-              <div className="mr-[-150px]">
+              <div className="">
                 <h1 className="text-[#202020] font-[500] text-[20px] mb-[15px]">
                   Contact us
                 </h1>

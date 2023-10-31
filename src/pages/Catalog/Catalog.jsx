@@ -10,6 +10,7 @@ import { axiosRequest } from "../../utils/axiosRequest";
 const Catalog = () => {
   const [direction, setDirection] = useState([]);
   const [project, setProjects] = useState([]);
+  const [fil, setFil] = useState([]);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -29,6 +30,19 @@ const Catalog = () => {
     } catch (error) {}
   };
 
+  const handleOption =(name)=>{
+  
+    if(!fil.includes(name)){
+      setFil([...fil, name])
+    }
+    else{
+      let ar = fil.filter((e)=>{
+        return e != name
+      })
+      setFil(ar)
+    }
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
     getDirection();
@@ -46,6 +60,7 @@ const Catalog = () => {
               {direction.map((e) => {
                 return (
                   <li
+                    onClick={()=>handleOption(e.name)}
                     key={e.id}
                     className="flex justify-between border-b-2 border-solid border-[#0072CD] items-center gap-[35px]"
                   >
@@ -65,24 +80,47 @@ const Catalog = () => {
           <div className="flex flex-col items-start gap-[20px]">
 
             <div className="flex flex-col gap-[20px]">
-              {project.map((e) => {
-                return (
-                  <div key={e.id}>
-                    <MultiActionAreaCard
-                      img={breket}
-                      heading={
-                        e?.name
-                      }
-                      id = {e?.id} 
-                      fullnames={e?.fullName}
-                      desc={
-                        " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
-                      }
-                      subject = {e?.scientificDirectionName}
-                    />
-                  </div>
-                );
-              })}
+              {
+                fil.length == 0 ? project.map((e) => {
+                  return (
+                    <div key={e.id}>
+                      <MultiActionAreaCard
+                        img={breket}
+                        heading={
+                          e?.name
+                        }
+                        id = {e?.id} 
+                        fullnames={e?.fullName}
+                        desc={
+                          " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                        }
+                        subject = {e?.scientificDirectionName}
+                      />
+                    </div>
+                  );
+                }):project.filter((el)=>{
+                  if(fil.includes(el.scientificDirectionName)){
+                    return el
+                  }
+                }).map((e) => {
+                  return (
+                    <div key={e.id}>
+                      <MultiActionAreaCard
+                        img={breket}
+                        heading={
+                          e?.name
+                        }
+                        id = {e?.id} 
+                        fullnames={e?.fullName}
+                        desc={
+                          " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                        }
+                        subject = {e?.scientificDirectionName}
+                      />
+                    </div>
+                  );
+                })
+              }
             </div>
           </div>
         </div>

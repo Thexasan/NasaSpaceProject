@@ -167,7 +167,7 @@ const Profile = () => {
                     className="w-[200px] h-[200px] rounded-[100%] object-cover"
                     src={
                       profile?.avatar
-                        ? `${import.meta.env.VITE_APP_FILES_URL}${
+                        ? ` http://65.108.148.136:8091/Image/${
                             profile?.avatar
                           }`
                         : userr

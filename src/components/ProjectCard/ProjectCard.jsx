@@ -7,11 +7,11 @@ const ProjectCard = ({ img, heading, subject, fullnames, clas, desc ,id }) => {
   const navigate = useNavigate()
   return (
     <div className={clas == "first" ? css.first : css.second}>
-      <div className="flex  justify-center gap-[25px] pt-[20px]">
-        <div>
+      <div className="  justify-center sm:flex-col md:flex md:flex-row sm:justify-center sm:text-center md:text-start gap-[25px] pt-[20px]">
+        <div className="text-center flex items-center justify-center">
           <img  src={img} alt="" />
         </div>
-        <div className="w-[85%]">
+        <div className="md:w-[85%] sm:my-[50px] md:my-[0px]">
           <h1
             style={{ display: !heading ? "none" : "block" }}
             className="text-[#000] text-[28px] font-[500]"
@@ -38,7 +38,7 @@ const ProjectCard = ({ img, heading, subject, fullnames, clas, desc ,id }) => {
         </div>
       </div>
 
-      <div className="flex items-start  justify-end mt-[-30px] mr-[30px]">
+      <div className="sm:flex sm:justify-center  sm:text-center md:text-start md:items-start  md:justify-end md:mt-[-30px] md:mr-[30px]">
         {clas == "first" ? (
           <Button
           onClick={()=>{navigate(`/aboutProject/${id}`)}}

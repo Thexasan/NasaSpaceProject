@@ -27,10 +27,10 @@ const Home = () => {
   }, []);
   return (
     <div>
-      <div className="section1 py-[70px] ">
+      <div className="section1 sm:pt-[40px] md:py-[70px] ">
         <div className="container1">
-          <div className="flex items-center justify-between">
-            <div className="left w-[47%]">
+          <div className="flex items-center md:justify-between justify-center flex-wrap  ">
+            <div className="left md:w-[47%] md:mb-[0px] mb-[100px]">
               <h1 className="text-[36px] font-[500] ">
                 <span className="text-[#0072CD] font-[400]">
                   Open project partners{" "}
@@ -61,19 +61,19 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="section2 py-[100px]">
+      <div className="section2 py-[100px] ">
         <div className="container1">
           <div className="text-center">
             <h1 className="font-[500] text-[36px] text-[#000] mb-[20px]">
               Trends in the scientific world
             </h1>
-            <p className="font-[400]  w-[43%] m-auto text-[20px] text-[#474747]">
+            <p className="font-[400]  md:w-[43%] m-auto text-[20px] text-[#474747]">
               Never miss out on new information provided by scientists from
               around the world on a wide variety of sciences.
             </p>
           </div>
-          <div className="flex items-center justify-center pt-[55px]">
-            <div>
+          <div className="flex items-center justify-center flex-wrap pt-[55px]">
+            <div className="sm:mb-[70px] md:mb-[0px]">
               <div>
                 <img className="rounded-[4px]" src={light} alt="" />
               </div>
@@ -115,27 +115,28 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="sections3 pt-[80px] pb-[130px]">
+      <div className="sections3 md:pt-[80px] pb-[130px] ">
         <div className="container1">
           <div className="text-center">
-            <h1 className="font-[500] w-[35%] m-auto text-[36px] text-[#000] mb-[20px]">
+            <h1 className="font-[500] md:w-[35%] m-auto text-[36px] text-[#000] mb-[20px]">
               Current projects of young and experienced scientists
             </h1>
           </div>
           <div>
             {project.map((e) => {
-              return <ProjectCard
-                img={hole}
-                heading={e?.name}
-                id={e?.id}
-                fullnames={e?.fullName}
-                desc={
-                  " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
-                }
-                clas = "first"
-                subject={e?.scientificDirectionName}
-              
-              />;
+              return (
+                <ProjectCard
+                  img={hole}
+                  heading={e?.name}
+                  id={e?.id}
+                  fullnames={e?.fullName}
+                  desc={
+                    " In the process of biology research paper on the topic of bracket systems: indications for installation, types, features and care the author explained what braces are, who they are indicated for and what the principle of operation of different bracket systems."
+                  }
+                  clas="first"
+                  subject={e?.scientificDirectionName}
+                />
+              );
             })}
           </div>
         </div>
