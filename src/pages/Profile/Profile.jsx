@@ -44,6 +44,7 @@ import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import NoData from "../../components/NoData/NoData";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../../utils/token";
+import MultiActionAreaCard from "../../components/CardCategory/Card";
 const MenuProps = {
   PaperProps: {
     style: {
@@ -419,7 +420,8 @@ const Profile = () => {
                   .filter((elem) => elem.userId == myid)
                   .map((e) => {
                     return (
-                      <ProjectCard
+                      <MultiActionAreaCard
+                      clasic = "full"
                         img={
                           e.scientificDirectionName == "Physics" ? physics :
                           e.scientificDirectionName == "Chemistry" ? chemistry :
