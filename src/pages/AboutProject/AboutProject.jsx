@@ -8,6 +8,15 @@ import { axiosRequest } from "../../utils/axiosRequest";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import rustam from "../../assets/Rutam.pdf";
+
+
+import history from "../../assets/history.jpg";
+import physics from "../../assets/physics.jpg";
+import astronomy from "../../assets/astronomy.jpg";
+import chemistry from "../../assets/chemistry.jpg";
+import math from "../../assets/math.avif";
+import biology from "../../assets/biology.avif";
+import geology from "../../assets/geology.jpg";
 import { useDispatch } from "react-redux";
 import { handleChange } from "../../reducers/states";
 const AboutProject = () => {
@@ -62,7 +71,22 @@ const AboutProject = () => {
           <div className="rounded-[4px]  mb-[20px] border-solid  border-b-[2px] border-[#D1D1D1] pt-[20px]  pb-[40px]">
             <div className="flex  justify-center gap-[25px] pt-[20px]">
               <div>
-                <img src={smile} alt="" />
+                <img   style={{
+            height: "200px",
+            width: "300px",
+            marginTop: "20px",
+            objectFit:"cover",
+            borderRadius: "5px  ",
+          }} src={
+                  
+                  thisProject?.scientificDirectionName == "Physics" ? physics :
+                  thisProject?.scientificDirectionName == "Chemistry" ? chemistry :
+                  thisProject?.scientificDirectionName == "Mathematics" ?  math:
+                  thisProject?.scientificDirectionName == "History" ? history :
+                  thisProject?.scientificDirectionName == "Astronomy" ? astronomy:
+                  thisProject?.scientificDirectionName == "Biology" ? biology: 
+                  thisProject?.scientificDirectionName == "Geology" ? geology: ""
+                } alt="" />
               </div>
               <div className="w-[85%] flex flex-wrap justify-start content-between">
                 <div className="w-[100%] flex flex-wrap">

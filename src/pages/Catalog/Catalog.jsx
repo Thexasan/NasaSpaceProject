@@ -7,6 +7,15 @@ import muravey from "../../assets/крист титул 2 (2).png";
 import dnk from "../../assets/днк титул 1.png";
 import { axiosRequest } from "../../utils/axiosRequest";
 
+
+import history from "../../assets/history.jpg";
+import physics from "../../assets/physics.jpg";
+import astronomy from "../../assets/astronomy.jpg";
+import chemistry from "../../assets/chemistry.jpg";
+import math from "../../assets/math.avif";
+import biology from "../../assets/biology.avif";
+import geology from "../../assets/geology.jpg";
+
 const Catalog = () => {
   const [direction, setDirection] = useState([]);
   const [project, setProjects] = useState([]);
@@ -50,8 +59,8 @@ const Catalog = () => {
   }, []);
   return (
     <>
-      <section className="container m-auto py-[80px] px-[50px]">
-        <div className="flex items-start gap-[80px]">
+      <section className=" m-auto py-[80px] px-[50px]">
+        <div className="flex w items-start gap-[80px]">
           <div>
             <ul className="grid items-start grid-cols-1 gap-y-10">
               <h1 className="text-[#000000] text-[32px] font-[600] font-sans leading-10 ">
@@ -85,7 +94,17 @@ const Catalog = () => {
                   return (
                     <div key={e.id}>
                       <MultiActionAreaCard
-                        img={breket}
+                        img={
+                          
+                    e.scientificDirectionName == "Physics" ? physics :
+                    e.scientificDirectionName == "Chemistry" ? chemistry :
+                    e.scientificDirectionName == "Mathematics" ?  math:
+                    e.scientificDirectionName == "History" ? history :
+                    e.scientificDirectionName == "Astronomy" ? astronomy:
+                    e.scientificDirectionName == "Biology" ? biology: 
+                    e.scientificDirectionName == "Geology" ? geology: ""
+
+                        }
                         heading={
                           e?.name
                         }
@@ -106,7 +125,15 @@ const Catalog = () => {
                   return (
                     <div key={e.id}>
                       <MultiActionAreaCard
-                        img={breket}
+                        img={
+                          e.scientificDirectionName == "Physics" ? physics :
+                          e.scientificDirectionName == "Chemistry" ? chemistry :
+                          e.scientificDirectionName == "Mathematics" ?  math:
+                          e.scientificDirectionName == "History" ? history :
+                          e.scientificDirectionName == "Astronomy" ? astronomy:
+                          e.scientificDirectionName == "Biology" ? biology: 
+                          e.scientificDirectionName == "Geology" ? geology: ""
+                        }
                         heading={
                           e?.name
                         }

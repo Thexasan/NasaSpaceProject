@@ -6,12 +6,12 @@ import { Button, CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function MultiActionAreaCard(props) {
-  const { img, heading, fullnames, desc, subject , id} = props;
+  const { clasic, img, heading, fullnames, desc, subject , id} = props;
   const navigate = useNavigate()
   return (
     <Card
       sx={{
-        maxWidth: "1044px",
+        maxWidth: clasic == "full" ? "2000px":"1044px",
         paddingBottom: "40px",
         borderBottom: "2px solid rgba(0, 0, 0, 0.18)",
         boxShadow: "none",

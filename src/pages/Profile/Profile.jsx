@@ -13,6 +13,16 @@ import rustam from "../../assets/Rutam.pdf";
 import hole from "../../assets/hole.png";
 import userr from "../../assets/user.png";
 
+
+
+import history from "../../assets/history.jpg";
+import physics from "../../assets/physics.jpg";
+import astronomy from "../../assets/astronomy.jpg";
+import chemistry from "../../assets/chemistry.jpg";
+import math from "../../assets/math.avif";
+import biology from "../../assets/biology.avif";
+import geology from "../../assets/geology.jpg";
+
 import profcss from "./Profile.module.css";
 import {
   Box,
@@ -410,7 +420,15 @@ const Profile = () => {
                   .map((e) => {
                     return (
                       <ProjectCard
-                        img={hole}
+                        img={
+                          e.scientificDirectionName == "Physics" ? physics :
+                          e.scientificDirectionName == "Chemistry" ? chemistry :
+                          e.scientificDirectionName == "Mathematics" ?  math:
+                          e.scientificDirectionName == "History" ? history :
+                          e.scientificDirectionName == "Astronomy" ? astronomy:
+                          e.scientificDirectionName == "Biology" ? biology: 
+                          e.scientificDirectionName == "Geology" ? geology: ""
+                        }
                         heading={e?.name}
                         id={e?.id}
                         fullnames={e?.fullName}

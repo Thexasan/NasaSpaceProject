@@ -7,9 +7,20 @@ import hole from "../../assets/hole.png";
 import breket from "../../assets/breket.png";
 import crystal from "../../assets/cristall.png";
 import smile from "../../assets/smile.png";
+
+import history from "../../assets/history.jpg";
+import physics from "../../assets/physics.jpg";
+import astronomy from "../../assets/astronomy.jpg";
+import chemistry from "../../assets/chemistry.jpg";
+import math from "../../assets/math.avif";
+import biology from "../../assets/biology.avif";
+import geology from "../../assets/geology.jpg";
+
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import { axiosRequest } from "../../utils/axiosRequest";
+import { Link } from "react-router-dom";
+import MultiActionAreaCard from "../../components/CardCategory/Card";
 const Home = () => {
   const [project, setProjects] = useState([]);
 
@@ -46,13 +57,15 @@ const Home = () => {
                 scientists because now on our site you can communicate with each
                 other being on different continents.
               </h1>
+              <Link to="/catalog">
               <Button
                 sx={{ paddingY: "6px", paddingX: "32px" }}
                 variant="contained"
                 endIcon={<ArrowForwardIosIcon />}
-              >
+                >
                 MORE
               </Button>
+                </Link>
             </div>
             <div>
               <img className="w-[100%] m-auto" src={laptop} alt="" />
@@ -72,7 +85,7 @@ const Home = () => {
               around the world on a wide variety of sciences.
             </p>
           </div>
-          <div className="flex items-center justify-center flex-wrap pt-[55px]">
+          <div className="flex items-center justify-center md:flex-row sm:flex-col pt-[55px]">
             <div className="sm:mb-[70px] md:mb-[0px]">
               <div>
                 <img className="rounded-[4px]" src={light} alt="" />
@@ -125,8 +138,18 @@ const Home = () => {
           <div>
             {project.map((e) => {
               return (
-                <ProjectCard
-                  img={hole}
+                <MultiActionAreaCard
+                  clasic = "full"
+                  img={
+                    e.scientificDirectionName == "Physics" ? physics :
+                    e.scientificDirectionName == "Chemistry" ? chemistry :
+                    e.scientificDirectionName == "Mathematics" ?  math:
+                    e.scientificDirectionName == "History" ? history :
+                    e.scientificDirectionName == "Astronomy" ? astronomy:
+                    e.scientificDirectionName == "Biology" ? biology: 
+                    e.scientificDirectionName == "Geology" ? geology: ""
+
+                  }
                   heading={e?.name}
                   id={e?.id}
                   fullnames={e?.fullName}
